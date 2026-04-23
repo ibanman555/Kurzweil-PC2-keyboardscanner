@@ -15,11 +15,11 @@ was used to speed up the scanning and clean up the old code.
 In 2020, thanks to Leandro Meucchi, from Argentina, the code improved to be used with any keyboard.
 He made the PDF showing the keyboard wiring for Yamaha PSR530 keyboard, that helps a lot to understand what needs to be done.
 
-In 2025 Emerson Seiler did a great job adding Kurzweil SP76II configuration + schematics, velocity sensitivity curves and potentiomers support, as he shows [here](https://www.youtube.com/watch?v=GndR5BkHnv0). He also suggested to explode the code into small pieces.
+In 2025 Emerson Seiler did a great job adding Kurzweil SP76II configuration + schematics, velocity sensitivity curves and potentiomers support, as he shows [here](https://youtu.be/NCz9auycRFU). He also suggested to explode the code into small pieces.
 
 I started 2026 working on Emerson Seiler's job as an opportunity to do a refactoring, creating the concept of "models" and merging his code into the main line. I also experimented mapping the rows x cols in a most professional way (matching the cols to Arduino Mega PORTs) to observe the gain in scans per second (Hz). It is about 7 times. I've got a stable 7KHz using my M-Audio Keystation 88 II keybed.
 
-In 2026, Emerson Seiler implemented an i2c screen system with an encoder for controlling mappable MIDI buttons and potentiometers, see ui_ modules.
+In 2026, Emerson Seiler implemented an i2c screen system with an encoder for controlling mappable MIDI buttons and potentiometers, see ui\_ modules.
 
 ## Features
 
@@ -53,11 +53,12 @@ I hope it helps:
 6. Optionally, consider turning your Arduino into a MIDI device using [HIDUINO](https://github.com/ddiakopoulos/hiduino), [mocoLUFA](https://github.com/kuwatay/mocolufa) or other similar firmware.
 7. Enjoy!
 
-## Assignable buttons and potentiometers 
+## Assignable buttons and potentiometers
 
 To enable this feature:
+
 1. Install libraries Adafruit GFX and Adafruit SSD1306 by Adafruit
-2. Enable the EXTENSION (UI) module in extensions.h  
+2. Enable the EXTENSION (UI) module in extensions.h
 3. For buttons, define the quantity in BUTTONS_ASSIGN_NUMBER and the pins in MIDI_BUTTONS_PINS in ui.h
 4. For potentiometers, define the quantity in POTS_ASSIGN_NUMBER and the pins in MIDI_POTS_ANALOG_PINS in ui.h
 5. The wiring diagrams for the display, encoder, buttons, and potentiometers are available in ui.h

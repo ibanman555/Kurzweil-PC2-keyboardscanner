@@ -1,3 +1,5 @@
+![key](/assets/kurzweil_sp76_mount.png)
+
 ## Key Mapping and Definition
 
 A touch-sensitive keyboard matrix has inputs and outputs. In this project, I used a Kurzweil SP76II keyboard, which has a 16x20 matrix.
@@ -16,14 +18,14 @@ Now the mapping becomes simple. In the model.h file, look for output_pins and in
 - In the code, each key must be represented by 2 output_pins and 2 input_pins. In this context, my E1 (Mi 1 - first key) was:
 
   `byte output_pins[] =  {
-  PIN_CA9, //E1
-  PIN_CA9, //E1
-  }`
+PIN_CA9, //E1
+PIN_CA9, //E1
+}`
 
   `byte input_pins[] = {
-  PIN_CA1,
-  PIN_CA2,
-  }`
+PIN_CA1,
+PIN_CA2,
+}`
 
 - If the diodes in your matrix are in a different configuration, the inputs may need to be swapped for the outputs and vice versa.
 
@@ -45,6 +47,8 @@ It is essential to calibrate MIN_TIME_MS and MAX_TIME_MS. To do this, you need t
 
 ## OPERATION
 
-To see the project in progress, visit [my YouTube channel](https://youtube.com/@emersonseiler?sub_confirmation=1)
+To see the project in progress, visit [my YouTube channel](https://youtube.com/@SeilerKeys?sub_confirmation=1)
+
+See the assembly and final result [here](https://youtu.be/NCz9auycRFU).
 
 #### Salmos 150 | Psalm 150 🙏🏼
