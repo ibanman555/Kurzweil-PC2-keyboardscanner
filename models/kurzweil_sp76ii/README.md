@@ -1,4 +1,4 @@
-![key](/assets/kurzweil_sp76_mount.png)
+![key](../../assets/kurzweil_sp76_mount.png)
 
 ## Key Mapping and Definition
 

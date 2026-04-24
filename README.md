@@ -15,11 +15,11 @@ was used to speed up the scanning and clean up the old code.
 In 2020, thanks to Leandro Meucchi, from Argentina, the code improved to be used with any keyboard.
 He made the PDF showing the keyboard wiring for Yamaha PSR530 keyboard, that helps a lot to understand what needs to be done.
 
-In 2025 Emerson Seiler did a great job adding Kurzweil SP76II configuration + schematics, velocity sensitivity curves and potentiomers support, as he shows [here](https://youtu.be/NCz9auycRFU). He also suggested to explode the code into small pieces.
+In 2025 Emerson Seiler did a great job adding Kurzweil SP76II configuration + schematics, velocity sensitivity curves and potentiometers support, as he shows [here](https://youtu.be/NCz9auycRFU). He also suggested to explode the code into small pieces.
 
 I started 2026 working on Emerson Seiler's job as an opportunity to do a refactoring, creating the concept of "models" and merging his code into the main line. I also experimented mapping the rows x cols in a most professional way (matching the cols to Arduino Mega PORTs) to observe the gain in scans per second (Hz). It is about 7 times. I've got a stable 7KHz using my M-Audio Keystation 88 II keybed.
 
-In 2026, Emerson Seiler implemented an i2c screen system with an encoder for controlling mappable MIDI buttons and potentiometers, see ui\_ modules.
+In 2026, Emerson Seiler implemented an i2c screen system with an encoder for controlling mappable MIDI buttons and potentiometers, see ui_ modules.
 
 ## Features
 
