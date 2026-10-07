@@ -10,17 +10,22 @@ Pins 1-16 connect sequentially to Mega D22-D37.
 
 Pins 1-12 connect to D38-D49. Pins 13-20 connect to D2-D9.
 
-## J10 - Octave buttons and LEDs
+## J10 - SW4 / SW5 octave buttons and LEDs
 
-| J10 pin | Function | Mega pin |
-|---:|---|---:|
-| 1 | Octave-down LED | D12 through series resistor |
-| 2 | Octave-up LED | D13 through series resistor |
-| 3 | Octave-down button | D10 |
-| 4 | Octave-up button | D11 |
-| 5 | Common | GND |
+J10 connects the two original illuminated buttons located **just above the PC2 pitch and mod wheels**. In this project they are used exclusively for octave shifting:
 
-Use one current-limiting resistor per LED. 330 ohm or 470 ohm is recommended; 1 kohm works but is visibly dimmer.
+- **SW4 = Octave Down**
+- **SW5 = Octave Up**
+
+| J10 pin | PC2 control | Function | Mega pin |
+|---:|---|---|---:|
+| 1 | SW4 LED | Octave-down LED | D12 through series resistor |
+| 2 | SW5 LED | Octave-up LED | D13 through series resistor |
+| 3 | SW4 | Octave-down button | D10 |
+| 4 | SW5 | Octave-up button | D11 |
+| 5 | Common | Button/LED common | GND |
+
+Use one current-limiting resistor per LED. 330 ohm or 470 ohm is recommended; 1 kohm works but is visibly dimmer. At normal octave both LEDs are off; selecting octave down lights SW4, and selecting octave up lights SW5.
 
 ## J11 - Wheels / pressure
 
