@@ -8,9 +8,13 @@ PARTS = ROOT / "manufacturing" / "parts"
 OUT = ROOT / "PC2-Shield-Gerbers.zip"
 EXPECTED_SHA256 = "bba3b698239ae15a7b6911c9d39496f48149648c18474a0976c9111cb7ca5255"
 
+part_files = sorted(PARTS.glob("part*.b64"))
+if not part_files:
+    raise SystemExit("No PCB package parts found")
+
 encoded = "".join(
-    (PARTS / f"part{i:02d}.b64").read_text(encoding="ascii").strip()
-    for i in range(1, 5)
+    part.read_text(encoding="ascii").strip()
+    for part in part_files
 )
 
 data = base64.b64decode(encoded, validate=True)
