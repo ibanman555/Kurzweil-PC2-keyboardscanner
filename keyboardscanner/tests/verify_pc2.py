@@ -11,7 +11,7 @@ pins = PINS.read_text()
 velocity = VELOCITY.read_text()
 
 def define_int(name):
-    m = re.search(rf"^#define\\s+{re.escape(name)}\\s+(-?\\d+)\\b", model, re.M)
+    m = re.search(rf"^#define\s+{re.escape(name)}\s+(-?\d+)\b", model, re.M)
     assert m, f"missing integer define {name}"
     return int(m.group(1))
 
@@ -43,7 +43,7 @@ expected_signals = {
 for name, value in expected_signals.items():
     assert define_int(name) == value, f"{name} expected D{value}"
 
-pairs = re.findall(r"^PINS\\(([^,]+),\\s*([^)]+)\\)", pins, re.M)
+pairs = re.findall(r"^PINS\(([^,]+),\s*([^)]+)\)", pins, re.M)
 assert len(pairs) == 152, f"expected 152 contact entries, got {len(pairs)}"
 
 expected_pairs = []
@@ -67,7 +67,7 @@ assert matrix_pins.isdisjoint(control_pins), "matrix/control digital pin collisi
 assert not (matrix_pins & {14,15,16,17,18,19,20,21,50,51,52,53}), "reserved interface pin used by matrix"
 
 body = velocity.split("{", 1)[1].split("}", 1)[0]
-values = [int(v) for v in re.findall(r"\\b\\d+\\b", body)]
+values = [int(v) for v in re.findall(r"\b\d+\b", body)]
 assert len(values) == 128, f"velocity curve has {len(values)} entries, expected 128"
 assert all(0 <= v <= 127 for v in values), "velocity value outside MIDI range"
 
