@@ -2,7 +2,7 @@
 
 This repository is for a **Kurzweil PC2 76-key keybed converted into a standalone MIDI controller using one Arduino Mega 2560 and a custom shield**.
 
-The hardware and firmware in this repository are specifically for the PC2 keybed, its original pitch/mod wheel assembly, the two octave buttons and LEDs, and a 1/4-inch sustain-pedal input.
+The hardware and firmware in this repository are specifically for the PC2 keybed, its original pitch/mod wheel assembly, the two illuminated octave-shift buttons located directly above the pitch and mod wheels (**SW4 = Octave Down, SW5 = Octave Up**), and a 1/4-inch sustain-pedal input.
 
 ## Implemented functions
 
@@ -10,8 +10,9 @@ The hardware and firmware in this repository are specifically for the PC2 keybed
 - Original Bass and Treble keybed ribbons
 - Pitch wheel
 - Mod wheel
-- Octave down / normal / octave up
-- Original octave-button LEDs
+- Octave down / normal / octave up using the original illuminated buttons above the wheels
+- SW4 = Octave Down; SW5 = Octave Up
+- Original SW4/SW5 button LEDs
 - 1/4-inch TS sustain pedal
 - Automatic sustain-pedal polarity detection at power-up
 - PC2 PRESSR/aftertouch routed to A3 for future use
@@ -71,12 +72,16 @@ PC2 wheel connector pin 3 -> A1. The measured PC2 mod-wheel output is approximat
 
 The firmware learns pedal polarity at startup. **Leave the pedal released while powering on or resetting the Mega.**
 
-### Octave buttons / LEDs
+### SW4 / SW5 octave buttons and LEDs
 
-- Octave Down button -> D10
-- Octave Up button -> D11
-- Octave Down LED -> D12 through a series resistor
-- Octave Up LED -> D13 through a series resistor
+The two original illuminated buttons located **just above the pitch and mod wheels** are used for octave shift:
+
+- **SW4 = Octave Down** -> D10
+- **SW5 = Octave Up** -> D11
+- **SW4 LED = Octave Down indicator** -> D12 through a series resistor
+- **SW5 LED = Octave Up indicator** -> D13 through a series resistor
+
+With no octave shift selected, both LEDs are off. Pressing SW4 selects one octave down and lights the SW4 LED; pressing SW5 selects one octave up and lights the SW5 LED.
 
 330 ohm or 470 ohm is recommended for the LED resistors.
 
