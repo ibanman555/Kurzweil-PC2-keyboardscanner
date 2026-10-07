@@ -141,7 +141,9 @@ The repository includes:
 
 These checks protect the 76-key mapping, contact order, shield pin assignments, velocity-table size, and basic compile compatibility.
 
-## Hardware documentation
+## Hardware and personal PCB manufacturing
+
+The custom Mega 2560 shield can be fabricated from the project's KiCad-exported Gerber and drill package. See the hardware guide for the manufacturing file list, ordering guidance, connector pinouts, and assembly precautions. The final shield is not yet physically verified.
 
 See:
 
