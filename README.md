@@ -91,6 +91,7 @@ D0/D1 are used by `Serial`/UART0 and are shared with the Mega's USB-to-serial in
 - Bass section: notes 28-59
 - Treble section: notes 60-103
 - Velocity timing range: 1800-80000 us
+- Velocity curve: linear 0-127 (prototype-verified baseline)
 - Matrix settling delay: 3 us
 
 Both Bass and Treble halves use the same physical contact order: **BR closes first, MK closes second**. Because `states.cpp` expects **SECOND contact first, FIRST contact second**, `pins.h` stores **MK first, BR second** for every key. This matches the verified dual-Mega prototype diagnostics.
@@ -107,7 +108,7 @@ The pitch input is mapped as 14-bit MIDI Pitch Bend with a center dead zone arou
 
 PC2 6-pin wheel connector pin 3 -> A1.
 
-The measured PC2 mod-wheel output is approximately 0.008-3.6 V, so the firmware maps the measured usable ADC range to the full MIDI CC1 range 0-127.
+The measured PC2 mod-wheel output is approximately 0.008-3.6 V. The successful prototype used ADC raw **2-736**, which the firmware maps to the full MIDI CC1 range 0-127.
 
 ### Sustain
 
