@@ -1,5 +1,28 @@
 # PC2 Mega 2560 shield
 
+This hardware is a custom Arduino Mega 2560 shield designed for the Kurzweil PC2 76-key MIDI-controller conversion. It connects both keybed ribbons, the original pitch/mod/pressure board, the two illuminated octave buttons, and a 1/4-inch TS sustain jack to a single Mega.
+
+## Personal PCB manufacturing
+
+The shield is designed for personal PCB fabrication. The original KiCad-exported manufacturing package supplied for this project is named **PC2 Board.zip** and contains these fabrication files:
+
+| File | Purpose |
+|---|---|
+| `PC2 Shield-F_Cu.gbr` | Front copper |
+| `PC2 Shield-B_Cu.gbr` | Back copper |
+| `PC2 Shield-F_Mask.gbr` | Front solder mask |
+| `PC2 Shield-B_Mask.gbr` | Back solder mask |
+| `PC2 Shield-F_Silkscreen.gbr` | Front silkscreen |
+| `PC2 Shield-B_Silkscreen.gbr` | Back silkscreen |
+| `PC2 Shield-Edge_Cuts.gbr` | Board outline |
+| `PC2 Shield-PTH.drl` | Plated drill holes |
+| `PC2 Shield-NPTH.drl` | Non-plated drill holes |
+| `PC2 Shield-job.gbrjob` | Gerber job metadata |
+
+**Manufacturing instructions:** Upload the ZIP of Gerber and drill files to a PCB fabrication service. Review its Gerber preview for the board outline, holes, copper, silkscreen, and orientation before ordering. The package is for a **bare PCB**, not an assembled board: connectors, resistors, the sustain jack, and the Arduino Mega must be supplied and assembled separately.
+
+**Status:** The merged single-Mega firmware compiles and is based on the successful two-Mega prototype, but the final fabricated shield still requires physical assembly and hardware verification. Confirm the actual jack's tip/sleeve contacts and connector pin-1 orientations before applying power.
+
 The final shield combines the complete Kurzweil PC2 keybed and controls onto one Arduino Mega 2560.
 
 ## J8 - Bass keybed ribbon
