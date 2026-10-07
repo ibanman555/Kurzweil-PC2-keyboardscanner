@@ -72,3 +72,31 @@ assert len(values) == 128, f"velocity curve has {len(values)} entries, expected 
 assert all(0 <= v <= 127 for v in values), "velocity value outside MIDI range"
 
 print("PC2 static verification passed")
+
+
+# Control and prototype-calibration invariants.
+assert re.search(r"^#define\s+PITCH_WHEEL_PIN\s+A0\b", model, re.M)
+assert re.search(r"^#define\s+MOD_WHEEL_PIN\s+A1\b", model, re.M)
+assert re.search(r"^#define\s+SUSTAIN_PEDAL_PIN\s+A2\b", model, re.M)
+assert re.search(r"^#define\s+AFTERTOUCH_PIN\s+A3\b", model, re.M)
+
+pot_text = (ROOT / "potentiometers.cpp").read_text()
+assert re.search(r"^#define\s+POTS_PB_CENTER_DEADZONE\s+12\b", pot_text, re.M)
+assert re.search(r"^#define\s+MOD_MIN_RAW\s+2\b", pot_text, re.M)
+assert re.search(r"^#define\s+MOD_MAX_RAW\s+736\b", pot_text, re.M)
+assert "const uint16_t POTS_TYPES" in pot_text
+
+scanner_text = (ROOT / "scanner.cpp").read_text()
+assert "sustain_pedal_released_state = digitalRead2(SUSTAIN_PEDAL_PIN);" in scanner_text
+assert "octave_shift > -1" in scanner_text and "octave_shift < 1" in scanner_text
+
+midi_text = (ROOT / "midi.cpp").read_text()
+assert "note_octave[key_index] = octave_shift;" in midi_text
+assert "if (status_byte == 0x90 && vel == 0)" in midi_text
+
+extensions_text = (ROOT / "extensions.h").read_text().strip()
+assert extensions_text == "EXTENSION(potentiometers)", "unexpected extension enabled"
+
+assert values == list(range(128)), "velocity curve differs from prototype-verified linear 0..127 baseline"
+
+print("PC2 control/calibration verification passed")
