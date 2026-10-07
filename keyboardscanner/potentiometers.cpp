@@ -15,10 +15,11 @@ Kurzweil PC2 pitch/mod wheel calibration from the working prototype.
 #define POT_TYPE_PITCHBEND 0xE000u
 #define POT_TYPE_MODWHEEL  0xB001u
 
-// PC2 mod-wheel output measured approximately 0.008 V to 3.6 V.
-// These ADC endpoints map that usable range to the full MIDI CC 0-127 range.
+// PC2 mod-wheel output measured approximately 0.008 V to 3.6 V on the working prototype.
+// The prototype calibration used raw ADC 2..736 and maps that measured range
+// to the full MIDI CC1 range 0..127.
 #define MOD_MIN_RAW 2
-#define MOD_MAX_RAW 752
+#define MOD_MAX_RAW 736
 
 const int POTS_ANALOG_PINS[POTS_NUMBER] = {
     PITCH_WHEEL_PIN,
