@@ -1,8 +1,8 @@
 # Kurzweil PC2 76-key model
 
-This model is the verified Kurzweil PC2 76-key matrix used by the single Arduino Mega 2560 shield.
+This is the verified Kurzweil PC2 76-key matrix used by the single Arduino Mega 2560 shield.
 
-The original PC2 keybed diodes remain in place. The scanner uses the normal sequential \`PINS()\` scan with a 3 microsecond settling delay.
+The original PC2 keybed diodes remain in place. The scanner uses the sequential `PINS()` scan with a 3 microsecond settling delay.
 
 ## Contact order
 
@@ -11,7 +11,7 @@ Both halves of the PC2 keybed use the same physical contact order:
 - Bass: BR closes first, MK closes second.
 - Treble: BR closes first, MK closes second.
 
-`states.cpp` expects each key to be stored as **SECOND contact first, FIRST contact second**, so `pins.h` stores MK first and BR second for both Bass and Treble. This matches the verified dual-Mega prototype diagnostics.
+`states.cpp` expects each key to be stored as **SECOND contact first, FIRST contact second**, so `pins.h` stores **MK first and BR second** for both Bass and Treble. This matches the verified dual-Mega prototype diagnostics.
 
 ## MIDI range
 
@@ -68,3 +68,5 @@ Both halves of the PC2 keybed use the same physical contact order:
 | 18 | BR10 | D7 |
 | 19 | BR9 | D8 |
 | 20 | MK10 | D9 |
+
+The final four notes use MK10/BR10 with T0-T3.
