@@ -1,24 +1,24 @@
-# Kurzweil PC2 keyboardscanner
+# Kurzweil PC2 76-Key MIDI Controller
 
-This repository adapts Daniel Moura's \`keyboardscanner\` project for the **Kurzweil PC2 76-key keyboard** and a custom Arduino Mega 2560 shield.
+This repository is for a **Kurzweil PC2 76-key keybed converted into a standalone MIDI controller using one Arduino Mega 2560 and a custom shield**.
 
-The project has now moved from the two-Mega development prototype to the final **single Mega 2560** pinout used by the shield.
+The hardware and firmware in this repository are specifically for the PC2 keybed, its original pitch/mod wheel assembly, the two octave buttons and LEDs, and a 1/4-inch sustain-pedal input.
 
-## Working functions
+## Implemented functions
 
-Prototype testing established working support for:
+- All 76 PC2 keys with velocity
+- Original Bass and Treble keybed ribbons
+- Pitch wheel
+- Mod wheel
+- Octave down / normal / octave up
+- Original octave-button LEDs
+- 1/4-inch TS sustain pedal
+- Automatic sustain-pedal polarity detection at power-up
+- PC2 PRESSR/aftertouch routed to A3 for future use
 
-- all 76 keys with velocity
-- original PC2 Bass and Treble keybed ribbons
-- pitch wheel
-- mod wheel
-- octave down / normal / octave up
-- the two original octave-button LEDs
-- 1/4-inch TS sustain pedal with automatic power-on polarity detection
+Aftertouch MIDI output is intentionally not enabled yet because the original pressure strip is still being evaluated for consistent mechanical response.
 
-The shield also routes the PC2 \`PRESSR\` aftertouch signal to A3. The pressure strip has produced approximately 0.8-4.8 V in testing, but aftertouch MIDI output is not enabled yet because the original strip/key mechanics still need service/testing for consistent response.
-
-## Final Mega 2560 pinout
+## Final Arduino Mega 2560 pinout
 
 | Function | Mega pin(s) |
 |---|---|
@@ -32,38 +32,71 @@ The shield also routes the PC2 \`PRESSR\` aftertouch signal to A3. The pressure 
 | Pitch | A0 |
 | Mod | A1 |
 | Sustain | A2 |
-| Aftertouch / PRESSR | A3 (routed, MIDI output not yet enabled) |
+| Aftertouch / PRESSR | A3 |
 
-## Firmware baseline
+### Reserved interfaces
 
-- \`KEYS_NUMBER = 76\`
-- \`FIRST_KEY = 28\`
-- \`MIN_TIME_US = 1800\`
-- \`MAX_TIME_US = 80000\`
-- \`SETTLING_TIME_MICROSECONDS = 3\`
+- D14-D15: Serial3
+- D16-D17: Serial2
+- D18-D19: Serial1
+- D20-D21: I2C
+- D50-D53: SPI
+- A4-A15: available
 
-The PC2 Bass and Treble halves close their BR/MK contacts in opposite order. \`pins.h\` accounts for this explicitly; do not globally reverse contact order in \`states.cpp\`.
+D0/D1 remain the primary MIDI serial interface.
 
-The pitch and mod wheel extension is enabled in \`extensions.h\`. The PC2 mod-wheel output does not reach a full 5 V, so its measured useful range is remapped to MIDI CC1 0-127.
+## Keybed scanner settings
 
-The octave buttons shift the entire 76-key keyboard on the single-Mega build. The Note On octave is remembered per key so a Note Off is always sent to the matching transposed note even if the octave is changed while the key is held.
+- 76 keys
+- First MIDI note: 28
+- Last MIDI note: 103
+- Velocity timing range: 1800-80000 us
+- Matrix settling delay: 3 us
 
-The sustain input automatically learns pedal polarity at startup. The pedal must be released during power-up/reset.
+The Bass and Treble halves of the PC2 keybed use opposite BR/MK contact order. The included `models/kurzweil_pc2/pins.h` already accounts for this. Do not globally reverse contact order in `states.cpp`.
 
-## Hardware
+## Controls
 
-See [hardware/README.md](hardware/README.md) and [models/kurzweil_pc2/README.md](models/kurzweil_pc2/README.md) for connector and matrix wiring.
+### Pitch
+PC2 wheel connector pin 2 -> A0.
+
+### Mod
+PC2 wheel connector pin 3 -> A1. The measured PC2 mod-wheel output is approximately 0.008-3.6 V, so the firmware maps its useful ADC range to the full MIDI CC1 range 0-127.
+
+### Sustain
+1/4-inch TS jack:
+
+- TIP -> A2
+- SLEEVE -> GND
+
+The firmware learns pedal polarity at startup. **Leave the pedal released while powering on or resetting the Mega.**
+
+### Octave buttons / LEDs
+
+- Octave Down button -> D10
+- Octave Up button -> D11
+- Octave Down LED -> D12 through a series resistor
+- Octave Up LED -> D13 through a series resistor
+
+330 ohm or 470 ohm is recommended for the LED resistors.
 
 ## Required Arduino library
 
-Install the **DIO2** library used by the original scanner project.
+Install the **DIO2** library before compiling.
 
-## MIDI output
+## Firmware
 
-The sketch starts \`Serial\` at 31250 baud and sends standard MIDI bytes through the existing \`sendMidiEvent()\` path.
+Open `keyboardscanner.ino` in the Arduino IDE, select **Arduino Mega or Mega 2560**, compile, and upload.
 
-## Credits
+The current firmware sends standard MIDI at 31250 baud.
 
-Based on Daniel Moura's original keyboardscanner project:
+## Hardware documentation
 
-https://github.com/oxesoft/keyboardscanner
+See:
+
+- [hardware/README.md](hardware/README.md)
+- [models/kurzweil_pc2/README.md](models/kurzweil_pc2/README.md)
+
+## License / attribution
+
+The key-scanning state-machine foundation was originally released under GPLv3 by Daniel Moura. The PC2 matrix mapping, shield pinout, wheel calibration, octave controls, sustain implementation, and single-Mega integration in this repository are specific to this Kurzweil PC2 project.
