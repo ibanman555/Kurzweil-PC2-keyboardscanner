@@ -3,28 +3,20 @@ Moura's Keyboard Scanner: turn you broken (or unused) keyboard in a MIDI control
 Copyright (C) 2017 Daniel Moura <oxesoft@gmail.com>
 
 This code is originally hosted at https://github.com/oxesoft/keyboardscanner
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Uncoment the next line if you have connected the matrix columns mapped to Arduino's PORTs
-// #define DIRECT_PORTS_READING
-
 #include "globals.h"
+#include <DIO2.h>
+
 #define MODEL_PINS_DEF models/MODEL_NAME/pins.h
+
 extern byte sustain_pedal_signal;
-#include <DIO2.h> // install the library DIO2
+
+// Shared with midi.cpp so octave changes apply to all 76 keys.
+int8_t octave_shift = 0;
+
+// Learned at power-up. The sustain pedal must be released while powering on/resetting.
+boolean sustain_pedal_released_state = HIGH;
 
 #ifdef SETTLING_TIME_MICROSECONDS
 #define SETTLING_TIME_DELAY delayMicroseconds(SETTLING_TIME_MICROSECONDS);
@@ -32,84 +24,98 @@ extern byte sustain_pedal_signal;
 #define SETTLING_TIME_DELAY
 #endif
 
+void octaveButtonsLoop()
+{
+    static bool downLastReading = HIGH;
+    static bool downStable = HIGH;
+    static unsigned long downChangeTime = 0;
+
+    static bool upLastReading = HIGH;
+    static bool upStable = HIGH;
+    static unsigned long upChangeTime = 0;
+
+    unsigned long now = millis();
+
+    bool downReading = digitalRead(OCTAVE_DOWN_PIN);
+    bool upReading   = digitalRead(OCTAVE_UP_PIN);
+
+    if (downReading != downLastReading)
+    {
+        downLastReading = downReading;
+        downChangeTime = now;
+    }
+
+    if ((now - downChangeTime) >= 25 && downReading != downStable)
+    {
+        downStable = downReading;
+        if (downStable == LOW && octave_shift > -1)
+        {
+            octave_shift--;
+        }
+    }
+
+    if (upReading != upLastReading)
+    {
+        upLastReading = upReading;
+        upChangeTime = now;
+    }
+
+    if ((now - upChangeTime) >= 25 && upReading != upStable)
+    {
+        upStable = upReading;
+        if (upStable == LOW && octave_shift < 1)
+        {
+            octave_shift++;
+        }
+    }
+
+    // LEDs show the selected octave state. Both are off at normal pitch.
+    digitalWrite(OCTAVE_DOWN_LED_PIN, octave_shift == -1 ? HIGH : LOW);
+    digitalWrite(OCTAVE_UP_LED_PIN,   octave_shift ==  1 ? HIGH : LOW);
+}
+
 void scannerSetup()
 {
     pinMode2(LED_BUILTIN, OUTPUT);
     digitalWrite2(LED_BUILTIN, LOW);
+
     #define PINS(output_pin, input_pin) \
-    pinMode2(output_pin, OUTPUT); \
-    digitalWrite2(output_pin, HIGH); \
-    pinMode2(input_pin, INPUT_PULLUP);
+        pinMode2(output_pin, OUTPUT); \
+        digitalWrite2(output_pin, HIGH); \
+        pinMode2(input_pin, INPUT_PULLUP);
     #include STR(MODEL_PINS_DEF)
     #undef PINS
+
     pinMode2(SUSTAIN_PEDAL_PIN, INPUT_PULLUP);
+    delay(20);
+    sustain_pedal_released_state = digitalRead2(SUSTAIN_PEDAL_PIN);
+
+    pinMode(OCTAVE_DOWN_PIN, INPUT_PULLUP);
+    pinMode(OCTAVE_UP_PIN, INPUT_PULLUP);
+
+    pinMode(OCTAVE_DOWN_LED_PIN, OUTPUT);
+    pinMode(OCTAVE_UP_LED_PIN, OUTPUT);
+    digitalWrite(OCTAVE_DOWN_LED_PIN, LOW);
+    digitalWrite(OCTAVE_UP_LED_PIN, LOW);
 }
-
-#ifdef DIRECT_PORTS_READING
-
-extern byte curr_mask[KEYS_NUMBER >> 2];
-
-void scannerLoop()
-{
-    // It requires modifying the following code to match your PORTs mapping
-    // See https://devboards.info/boards/arduino-mega2560-rev3
-    // The gain on scans per second (Hz) is around 7 times compared to the random pin mapping
-    // This code was tested using a maudio_keystation88ii
-    byte *mask = curr_mask;
-    for (byte row = 0; row < 8; row++)
-    {
-        PORTA = ~(1 << row);
-        SETTLING_TIME_DELAY
-        *(mask++) = ~PINC;
-        PORTA = 0xFF;
-    }
-    for (byte row = 0; row < 2; row++)
-    {
-        PORTD = ~(1 << row);
-        SETTLING_TIME_DELAY
-        *(mask++) = ~PINC;
-        PORTD = 0xFF;
-    }
-    for (byte row = 0; row < 2; row++)
-    {
-        PORTB = ~(1 << row);
-        SETTLING_TIME_DELAY
-        byte tmp = ~PINK;
-        curr_mask[row + 8] |= tmp & 1 ? 0b10000000 : 0;
-        PORTB = 0xFF;
-    }
-    for (byte row = 0; row < 8; row++)
-    {
-        PORTL = ~(1 << row);
-        SETTLING_TIME_DELAY
-        *(mask++) = ~PINF;
-        PORTL = 0xFF;
-    }
-    for (byte row = 0; row < 4; row++)
-    {
-        PORTB = ~(1 << row);
-        SETTLING_TIME_DELAY
-        *(mask++) = ~PINF;
-        PORTB = 0xFF;
-    }
-    sustain_pedal_signal = digitalRead2(SUSTAIN_PEDAL_PIN);
-}
-
-#else
 
 extern boolean matrix_signals[KEYS_NUMBER * 2];
 
 void scannerLoop()
 {
     boolean *s = matrix_signals;
+
     #define PINS(output_pin, input_pin) \
-    digitalWrite2(output_pin, LOW); \
-    SETTLING_TIME_DELAY \
-    *(s++) = !digitalRead2(input_pin); \
-    digitalWrite2(output_pin, HIGH);
+        digitalWrite2(output_pin, LOW); \
+        SETTLING_TIME_DELAY \
+        *(s++) = !digitalRead2(input_pin); \
+        digitalWrite2(output_pin, HIGH);
     #include STR(MODEL_PINS_DEF)
     #undef PINS
-    sustain_pedal_signal = digitalRead2(SUSTAIN_PEDAL_PIN);
-}
 
-#endif
+    boolean pedal_raw = digitalRead2(SUSTAIN_PEDAL_PIN);
+    sustain_pedal_signal =
+        (pedal_raw == sustain_pedal_released_state) ? HIGH : LOW;
+
+    octaveButtonsLoop();
+}
