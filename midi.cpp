@@ -3,36 +3,29 @@ Moura's Keyboard Scanner: turn you broken (or unused) keyboard in a MIDI control
 Copyright (C) 2017 Daniel Moura <oxesoft@gmail.com>
 
 This code is originally hosted at https://github.com/oxesoft/keyboardscanner
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 // Enables debug mode to check MIN_TIME_US and MAX_TIME_US values
 // #define DEBUG_VELOCITY_TIMES
 
-// Uncoment the next line to get text midi message at output
+// Uncomment the next line to get text MIDI messages at output
 // #define DEBUG_MIDI_MESSAGE
 
 #define DEFINE_BLACK_KEYS_MAP
 #include "globals.h"
 #include "velocity.h"
 #include <assert.h>
+
 #define SIZEOF_VELOCITY_CURVE 128
 static_assert(sizeof(VELOCITY_CURVE) == SIZEOF_VELOCITY_CURVE, "Invalid velocity curve");
 
-bool isBlack(byte note) {
-    switch (note % 12) {
+extern int8_t octave_shift;
+static int8_t note_octave[KEYS_NUMBER] = {0};
+
+bool isBlack(byte note)
+{
+    switch (note % 12)
+    {
         case 1:
         case 3:
         case 6:
@@ -46,18 +39,42 @@ bool isBlack(byte note) {
 
 void sendKeyEvent(byte status_byte, byte key_index, unsigned long time)
 {
-    byte key = FIRST_KEY + key_index;
+    // Remember the octave used for Note On so Note Off always targets the same note,
+    // even if the player changes octave while a key is held.
+    int8_t thisOctave;
+    if (status_byte == 0x90)
+    {
+        note_octave[key_index] = octave_shift;
+        thisOctave = octave_shift;
+    }
+    else
+    {
+        thisOctave = note_octave[key_index];
+    }
+
+    int note = FIRST_KEY + key_index + (thisOctave * 12);
+    if (note < 0) note = 0;
+    if (note > 127) note = 127;
+    byte key = (byte)note;
+
 #ifdef BLACK_KEYS_VELOCITY_MULTIPLIER
     if (isBlack(key))
     {
         time = (time * BLACK_KEYS_VELOCITY_MULTIPLIER) >> 7;
     }
 #endif
+
     unsigned long t = constrain(time, MIN_TIME_US, MAX_TIME_US);
     t -= MIN_TIME_US;
 
     unsigned long linear_velocity = 127 - ((t * 127) / (MAX_TIME_US - MIN_TIME_US));
     byte vel = VELOCITY_CURVE[linear_velocity];
+
+    // MIDI Note On with velocity 0 is interpreted as Note Off.
+    if (status_byte == 0x90 && vel == 0)
+    {
+        vel = 1;
+    }
 
 #ifdef DEBUG_VELOCITY_TIMES
     Serial.print("KEY_");

@@ -1,3 +1,3 @@
 // EXTENSION(counter)
-// EXTENSION(potentiometers)
+EXTENSION(potentiometers)
 // EXTENSION(ui)

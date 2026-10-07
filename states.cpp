@@ -3,19 +3,6 @@ Moura's Keyboard Scanner: turn you broken (or unused) keyboard in a MIDI control
 Copyright (C) 2017 Daniel Moura <oxesoft@gmail.com>
 
 This code is originally hosted at https://github.com/oxesoft/keyboardscanner
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "globals.h"
@@ -38,9 +25,10 @@ static void handleKey(byte key, boolean upper, boolean lower)
         if (upper)
         {
             keys_state[key] = KEY_START;
-            keys_time [key] = micros();
+            keys_time[key] = micros();
         }
         break;
+
     case KEY_START:
         if (!upper)
         {
@@ -54,13 +42,15 @@ static void handleKey(byte key, boolean upper, boolean lower)
             sendKeyEvent(0x90, key, time);
         }
         break;
+
     case KEY_ON:
         if (!lower)
         {
             keys_state[key] = KEY_RELEASED;
-            keys_time [key] = micros();
+            keys_time[key] = micros();
         }
         break;
+
     case KEY_RELEASED:
         if (!upper)
         {
@@ -72,70 +62,23 @@ static void handleKey(byte key, boolean upper, boolean lower)
     }
 }
 
-#ifdef DIRECT_PORTS_READING
-
-#define NUM_GROUPS (KEYS_NUMBER >> 3)
-byte prev_mask[KEYS_NUMBER >> 2];
-byte curr_mask[KEYS_NUMBER >> 2];
-
-void statesLoop()
-{
-    for (uint8_t g = 0; g < NUM_GROUPS; g++) {
-
-        byte up_curr   = curr_mask[2*g + 0];
-        byte dn_curr   = curr_mask[2*g + 1];
-        byte up_prev   = prev_mask[2*g + 0];
-        byte dn_prev   = prev_mask[2*g + 1];
-
-        byte up_changed = up_curr ^ up_prev;
-        byte dn_changed = dn_curr ^ dn_prev;
-
-        if ((up_changed | dn_changed) == 0)
-            continue;   // nothing changed in this group
-
-        byte changed = up_changed | dn_changed;
-
-        while (changed) {
-
-            uint8_t bit = changed & -changed;   // isolate lowest set bit
-            changed ^= bit;                     // clear it
-
-            byte key_in_group = __builtin_ctz(bit);  // 0..7
-            byte key = g * 8 + key_in_group;
-
-            bool up = up_curr & bit;
-            bool dn = dn_curr & bit;
-
-            handleKey(key, up, dn);
-        }
-        prev_mask[2*g + 0] = curr_mask[2*g + 0];
-        prev_mask[2*g + 1] = curr_mask[2*g + 1];
-    }
-    if (sustain_pedal_signal_previous != sustain_pedal_signal)
-    {
-        sendSustainPedalEvent(sustain_pedal_signal == LOW);
-    }
-    sustain_pedal_signal_previous = sustain_pedal_signal;
-}
-
-#else
-
 boolean matrix_signals[KEYS_NUMBER * 2] = {LOW};
 
 void statesLoop()
 {
     boolean *signal = matrix_signals;
+
     for (byte key = 0; key < KEYS_NUMBER; key++)
     {
-        boolean upper = *(signal++);
+        // pins.h stores SECOND contact first, FIRST contact second.
         boolean lower = *(signal++);
+        boolean upper = *(signal++);
         handleKey(key, upper, lower);
     }
+
     if (sustain_pedal_signal_previous != sustain_pedal_signal)
     {
         sendSustainPedalEvent(sustain_pedal_signal == LOW);
     }
     sustain_pedal_signal_previous = sustain_pedal_signal;
 }
-
-#endif
