@@ -21,10 +21,12 @@ Kurzweil PC2 76-key configuration for the single Arduino Mega 2560 shield.
 #define SUSTAIN_PEDAL_PIN     A2
 #define AFTERTOUCH_PIN        A3
 
-#define OCTAVE_DOWN_PIN       10
-#define OCTAVE_UP_PIN         11
-#define OCTAVE_DOWN_LED_PIN   12
-#define OCTAVE_UP_LED_PIN     13
+// Original illuminated buttons just above the pitch/mod wheels:
+// SW4 = Octave Down, SW5 = Octave Up.
+#define OCTAVE_DOWN_PIN       10  // SW4 button
+#define OCTAVE_UP_PIN         11  // SW5 button
+#define OCTAVE_DOWN_LED_PIN   12  // SW4 LED
+#define OCTAVE_UP_LED_PIN     13  // SW5 LED
 
 // J8 - Bass ribbon
 #define BASS_MK0 22
