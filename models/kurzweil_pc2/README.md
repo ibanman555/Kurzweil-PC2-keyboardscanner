@@ -6,12 +6,12 @@ The original PC2 keybed diodes remain in place. The scanner uses the normal sequ
 
 ## Contact order
 
-The two halves of the PC2 keybed use opposite physical contact naming:
+Both halves of the PC2 keybed use the same physical contact order:
 
 - Bass: BR closes first, MK closes second.
-- Treble: MK closes first, BR closes second.
+- Treble: BR closes first, MK closes second.
 
-\`states.cpp\` expects each key to be stored as **SECOND contact first, FIRST contact second**, so \`pins.h\` deliberately uses different BR/MK ordering for the two halves.
+`states.cpp` expects each key to be stored as **SECOND contact first, FIRST contact second**, so `pins.h` stores MK first and BR second for both Bass and Treble. This matches the verified dual-Mega prototype diagnostics.
 
 ## MIDI range
 

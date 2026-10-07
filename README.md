@@ -54,7 +54,7 @@ D0/D1 remain the primary MIDI serial interface.
 - Velocity timing range: 1800-80000 us
 - Matrix settling delay: 3 us
 
-The Bass and Treble halves of the PC2 keybed use opposite BR/MK contact order. The included `models/kurzweil_pc2/pins.h` already accounts for this. Do not globally reverse contact order in `states.cpp`.
+Both Bass and Treble halves use the same physical contact order: **BR closes first, MK closes second**. Because `states.cpp` expects **SECOND contact first, FIRST contact second**, `models/kurzweil_pc2/pins.h` stores **MK first, BR second** for every key. This matches the verified dual-Mega prototype.
 
 ## Controls
 
