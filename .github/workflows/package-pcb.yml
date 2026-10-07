@@ -1,0 +1,41 @@
+name: Package PCB manufacturing files
+
+on:
+  push:
+    paths:
+      - "hardware/pcb/manufacturing/READY"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Rebuild original manufacturing ZIP
+        run: python3 hardware/pcb/build_manufacturing_zip.py
+
+      - name: Verify ZIP contents
+        run: unzip -t hardware/pcb/PC2-Shield-Gerbers.zip
+
+      - name: Commit ready-to-download manufacturing package
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add hardware/pcb/PC2-Shield-Gerbers.zip
+          if git diff --cached --quiet; then
+            echo "Manufacturing ZIP is already current."
+          else
+            git commit -m "Build PCB manufacturing ZIP"
+            git push
+          fi
+
+      - name: Upload manufacturing package as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PC2-Shield-Gerbers
+          path: hardware/pcb/PC2-Shield-Gerbers.zip
