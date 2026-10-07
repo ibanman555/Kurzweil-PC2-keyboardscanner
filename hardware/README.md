@@ -2,6 +2,10 @@
 
 The final shield combines the complete Kurzweil PC2 keybed and controls onto one Arduino Mega 2560.
 
+## PCB manufacturing files
+
+The Gerber/drill manufacturing package for personal fabrication is documented and downloadable from **[pcb/README.md](pcb/README.md)**.
+
 ## J8 - Bass keybed ribbon
 
 Pins 1-16 connect sequentially to Mega D22-D37.
