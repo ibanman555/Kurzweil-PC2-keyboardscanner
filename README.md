@@ -1,3 +1,5 @@
+![Kurzweil PC2](https://cf1.zzounds.com/media/productmedia/fit%2C2018by3200/quality%2C85/pc2-2lef-f8b3492148af428bc1d07ffa5b647e6b.jpg)
+
 # Kurzweil PC2 76-Key MIDI Controller
 
 This repository is for a **Kurzweil PC2 76-key keybed converted into a standalone MIDI controller using one Arduino Mega 2560 and a custom shield**.
@@ -141,11 +143,18 @@ The repository includes:
 
 These checks protect the 76-key mapping, contact order, shield pin assignments, velocity-table size, and basic compile compatibility.
 
+## PCB manufacturing files
+
+The custom Mega 2560 shield can be fabricated for personal use from the PCB manufacturing package included with this project.
+
+See **[hardware/pcb/README.md](hardware/pcb/README.md)** for the ready-to-download Gerber/drill ZIP, its contents, checksum verification, and fabrication notes.
+
 ## Hardware documentation
 
 See:
 
 - [hardware/README.md](hardware/README.md)
+- [PCB manufacturing files](hardware/pcb/README.md)
 - [keyboardscanner/models/kurzweil_pc2/README.md](keyboardscanner/models/kurzweil_pc2/README.md)
 
 ## License / attribution
