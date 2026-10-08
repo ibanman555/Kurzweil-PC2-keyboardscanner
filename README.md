@@ -58,6 +58,52 @@ The successful dual-Mega prototype used the Mega's normal USB serial connection 
 
 The stock Mega 2560 USB connection is a serial/COM device, not a native USB-MIDI device. The firmware sends standard MIDI bytes through `Serial` at 31250 baud, exactly as used in the prototype.
 
+### Optional native USB-MIDI with HIDUINO
+
+After the PC2 sketch has been compiled and uploaded to the Mega 2560, the board can alternatively be configured as a **class-compliant USB-MIDI device** using [HIDUINO](https://github.com/ddiakopoulos/hiduino).
+
+HIDUINO does not replace the PC2 sketch on the main ATmega2560. Instead, it replaces the normal `usbserial` firmware on the Mega's separate USB-interface AVR (ATmega16U2 on current Mega 2560 revisions; older boards may use an ATmega8U2). The existing PC2 sketch continues to send standard MIDI bytes at 31250 baud, while HIDUINO presents those bytes to the computer as a native USB-MIDI device. This removes the need for the USB-COM-to-Bome bridge during normal use.
+
+The HIDUINO repository includes a precompiled `compiled_firmwares/arduino_midi.hex` firmware and a `compiled_firmwares/usbserial_mega_16u2.hex` image for restoring the normal Mega USB-serial interface. HIDUINO can be flashed to the USB-interface chip using its DFU bootloader or an ISP programmer; follow the HIDUINO project instructions for the exact procedure.
+
+**Important development limitation:** once HIDUINO is loaded on the 8U2/16U2, the Mega no longer provides its normal USB serial/COM interface, so the Arduino IDE cannot upload changes to the PC2 sketch through the normal USB cable. To edit and re-upload the PC2 sketch, either temporarily restore the Mega's `usbserial` firmware, upload the revised sketch, and then re-flash HIDUINO, or leave HIDUINO installed and program the main ATmega2560 through its ISP header using **Upload Using Programmer**. HIDUINO's own documentation specifically notes that sketches cannot be bootloaded over USB while HIDUINO is installed on the USB-controller AVR.
+
+Do not use `Serial.print()` or other debug text while HIDUINO is active. HIDUINO uses that serial connection for the MIDI byte stream, so debug text would be inserted into the MIDI data.
+
+#### Changing the USB MIDI device name
+
+The USB device name can be customized, but this requires building HIDUINO from source rather than simply using the stock precompiled `arduino_midi.hex`.
+
+In HIDUINO, edit:
+
+`src/arduino_midi/Descriptors.c`
+
+The current product-name descriptor is:
+
+```c
+const USB_Descriptor_String_t PROGMEM ProductString =
+    USB_STRING_DESCRIPTOR(L"arduino_midi");
+```
+
+Change the text inside the wide-character string to the desired name, for example:
+
+```c
+const USB_Descriptor_String_t PROGMEM ProductString =
+    USB_STRING_DESCRIPTOR(L"Kurzweil PC2");
+```
+
+The manufacturer string can also be changed in the same file if desired:
+
+```c
+const USB_Descriptor_String_t PROGMEM ManufacturerString =
+    USB_STRING_DESCRIPTOR(L"hiduino project");
+```
+
+After changing `ProductString` (and optionally `ManufacturerString`), rebuild the HIDUINO `arduino_midi` firmware and flash the newly compiled HEX file to the Mega's 8U2/16U2 USB-interface chip. Renaming the HEX file itself does **not** change the USB device name; the descriptor must be changed before compilation.
+
+HIDUINO source: [ddiakopoulos/hiduino](https://github.com/ddiakopoulos/hiduino)  
+Device-name source file: [src/arduino_midi/Descriptors.c](https://github.com/ddiakopoulos/hiduino/blob/master/src/arduino_midi/Descriptors.c)
+
 ## Final Arduino Mega 2560 pinout
 
 | Function | Mega pin(s) |
