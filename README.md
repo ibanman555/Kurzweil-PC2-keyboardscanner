@@ -149,7 +149,12 @@ The custom Mega 2560 shield can be fabricated from the project's KiCad-exported 
 
 **[Download the PC2 Shield PCB manufacturing Gerber package](hardware/PC2%20Board.zip)**
 
-See the hardware guide for the manufacturing file list, ordering guidance, connector pinouts, and assembly precautions. The final shield is not yet physically verified.
+### Bill of materials
+
+- **[View the PC2 Shield BOM on GitHub](hardware/PC2_Shield_BOM.md)**
+- **[Open the full PC2 Shield BOM CSV](hardware/PC2_Shield_BOM.csv)**
+
+See the hardware guide for the manufacturing file list, ordering guidance, connector pinouts, BOM, and assembly precautions. The final shield is not yet physically verified.
 
 See:
 
