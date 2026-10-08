@@ -49,7 +49,7 @@ In Arduino IDE select **Arduino Mega or Mega 2560**, install the **DIO2** librar
 
 ## MIDI connection used for prototype testing
 
-This projects prototype used 2 separate Arduino Mega 2560's to allow both PC2 keybed ribbon connectors to be attached without modification. The successful dual-Mega prototype used the Mega's normal USB serial connection as a COM port and Bome as the serial-to-MIDI bridge:
+This projects prototype used 2 separate Arduino Mega 2560's to allow both PC2 keybed ribbon connectors to be attached to the digital pins without modification. The successful dual-Mega prototype used the Mega's normal USB serial connection as a COM port and Bome as the serial-to-MIDI bridge:
 
 - Serial speed: **31250 baud**
 - Format: **8N1**
