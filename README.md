@@ -62,13 +62,15 @@ The stock Mega 2560 USB connection is a serial/COM device, not a native USB-MIDI
 
 After the PC2 sketch has been compiled and uploaded to the Mega 2560, the board can alternatively be configured as a **class-compliant USB-MIDI device** using [HIDUINO](https://github.com/ddiakopoulos/hiduino).
 
-HIDUINO does not replace the PC2 sketch on the main ATmega2560. Instead, it replaces the normal `usbserial` firmware on the Mega's separate USB-interface AVR (ATmega16U2 on current Mega 2560 revisions; older boards may use an ATmega8U2). The existing PC2 sketch continues to send standard MIDI bytes at 31250 baud, while HIDUINO presents those bytes to the computer as a native USB-MIDI device. This removes the need for the USB-COM-to-Bome bridge during normal use.
+HIDUINO does not replace the PC2 sketch on the main ATmega2560. Instead, it replaces the normal `usbserial` firmware on the Mega's separate USB-interface AVR. HIDUINO officially supports the Mega 2560 when that USB-interface chip is an **ATmega16U2** (Mega 2560 R3) or **ATmega8U2** (older revisions). It does **not** work on Mega-compatible boards that use a fixed USB-to-serial chip such as CH340, FTDI, or CP2102.
+
+The current PC2 sketch is already compatible with HIDUINO as written. `keyboardscanner.ino` starts UART0 with `Serial.begin(31250)`, and HIDUINO's `arduino_midi` firmware also initializes its serial side at **31250 baud**. The PC2 firmware's normal MIDI path sends the MIDI status and data bytes with `Serial.write()`; HIDUINO receives those raw MIDI bytes and presents them to the computer as a class-compliant USB-MIDI device. No Bome serial-to-MIDI bridge is required once HIDUINO is installed.
+
+The source file `keyboardscanner/midi.cpp` does contain `Serial.print()` / `Serial.println()` statements for diagnostics, but they are inside the compile-time-only `DEBUG_VELOCITY_TIMES` and `DEBUG_MIDI_MESSAGE` sections. Those debug options are **not enabled in the current PC2 build**, so the debug text is not compiled into the running firmware and is safe to leave in the source when HIDUINO is used. **Do not enable either debug option while HIDUINO is active**, because ASCII debug text would then be inserted into the same serial byte stream HIDUINO interprets as MIDI.
 
 The HIDUINO repository includes a precompiled `compiled_firmwares/arduino_midi.hex` firmware and a `compiled_firmwares/usbserial_mega_16u2.hex` image for restoring the normal Mega USB-serial interface. HIDUINO can be flashed to the USB-interface chip using its DFU bootloader or an ISP programmer; follow the HIDUINO project instructions for the exact procedure.
 
 **Important development limitation:** once HIDUINO is loaded on the 8U2/16U2, the Mega no longer provides its normal USB serial/COM interface, so the Arduino IDE cannot upload changes to the PC2 sketch through the normal USB cable. To edit and re-upload the PC2 sketch, either temporarily restore the Mega's `usbserial` firmware, upload the revised sketch, and then re-flash HIDUINO, or leave HIDUINO installed and program the main ATmega2560 through its ISP header using **Upload Using Programmer**. HIDUINO's own documentation specifically notes that sketches cannot be bootloaded over USB while HIDUINO is installed on the USB-controller AVR.
-
-Do not use `Serial.print()` or other debug text while HIDUINO is active. HIDUINO uses that serial connection for the MIDI byte stream, so debug text would be inserted into the MIDI data.
 
 #### Changing the USB MIDI device name
 
