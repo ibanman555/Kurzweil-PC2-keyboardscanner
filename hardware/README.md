@@ -4,6 +4,8 @@ This hardware is a custom Arduino Mega 2560 shield designed for the Kurzweil PC2
 
 ## Personal PCB manufacturing
 
+**[Download the PC2 Shield PCB manufacturing Gerber package](PC2%20Board.zip)**
+
 The shield is designed for personal PCB fabrication. The original KiCad-exported manufacturing package supplied for this project is named **PC2 Board.zip** and contains these fabrication files:
 
 | File | Purpose |
