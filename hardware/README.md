@@ -9,7 +9,7 @@ This hardware is a custom Arduino Mega 2560 shield designed for the Kurzweil PC2
 ## Bill of materials
 
 - **[View the GitHub-formatted PC2 Shield BOM](PC2_Shield_BOM.md)** — concise, human-readable parts table with datasheet links.
-- **[Open the full PC2 Shield BOM CSV](PC2_Shield_BOM.csv)** — complete Mouser-export data for viewing or importing into a spreadsheet.
+- **[Open the full PC2 Shield BOM CSV](PC2_Shield_BOM.csv)** — CSV-format BOM for viewing or importing into a spreadsheet.
 - **[Download the original Mouser XLS BOM](282323296.xls)** — original spreadsheet source.
 
 The Markdown and CSV BOMs are normalized for **one PC2 Shield**. The original Mouser spreadsheet was an order for three boards, so its quantities are three times the per-shield requirement.
