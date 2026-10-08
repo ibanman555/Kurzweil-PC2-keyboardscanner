@@ -1,6 +1,6 @@
 # PC2 Shield Bill of Materials
 
-GitHub-viewable BOM for **one PC2 Shield**, generated from the Mouser spreadsheet. Quantities have been normalized from the original three-board order.
+GitHub-viewable BOM for **one PC2 Shield**, generated from the Mouser spreadsheet.
 
 | Mouser Part Number | Mfr Part Number | Manufacturer Name | Description | Qty / Shield | Datasheet URL |
 | --- | --- | --- | --- | --- | --- |
