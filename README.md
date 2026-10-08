@@ -1,6 +1,7 @@
-![Kurzweil PC2](https://cf1.zzounds.com/media/productmedia/fit%2C2018by3200/quality%2C85/pc2-2lef-f8b3492148af428bc1d07ffa5b647e6b.jpg)
+
 
 # Kurzweil PC2 76-Key MIDI Controller
+![Kurzweil PC2](https://cf1.zzounds.com/media/productmedia/fit%2C2018by3200/quality%2C85/pc2-2lef-f8b3492148af428bc1d07ffa5b647e6b.jpg)
 
 This repository is for a **Kurzweil PC2 76-key keybed converted into a standalone MIDI controller using one Arduino Mega 2560 and a custom shield**.
 
