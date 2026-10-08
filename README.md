@@ -147,6 +147,8 @@ These checks protect the 76-key mapping, contact order, shield pin assignments, 
 
 The custom Mega 2560 shield can be fabricated from the project's KiCad-exported Gerber and drill package. The manufacturing ZIP is included in this repository for personal PCB fabrication.
 
+<img src="hardware/PC2%20Shield%20Graphic_2.png" alt="PC2 Shield" width="800">
+
 **[Download the PC2 Shield PCB manufacturing Gerber package](hardware/PC2%20Board.zip)**
 
 ### Bill of materials
