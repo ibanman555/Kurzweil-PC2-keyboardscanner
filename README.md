@@ -193,7 +193,7 @@ These checks protect the 76-key mapping, contact order, shield pin assignments, 
 
 ## Hardware and personal PCB manufacturing
 
-The custom Mega 2560 shield can be fabricated from the project's KiCad-exported Gerber and drill package. The manufacturing ZIP is included in this repository for personal PCB fabrication.
+The custom Mega 2560 shield can be fabricated from the project's KiCad-exported Gerber and drill package. The manufacturing ZIP is included in this repository for personal PCB fabrication. This shield allows all integrated keybed, wheel & button/LED connectors to terminate to the 2560 without modification.
 
 <img src="hardware/PC2%20Shield%20Graphic_2.png" alt="PC2 Shield" width="800">
 
