@@ -86,7 +86,7 @@ When programming these files, connect the AVR-ISP-MK2 to the **ATmega16U2's 2x3 
 
 #### Changing the USB MIDI device name
 
-The USB device name can be customized, but this requires building HIDUINO from source rather than simply using the stock precompiled `arduino_midi.hex`.
+The included [`firmware/atmega16u2/ATmega_16u2_PC2.hex`](firmware/atmega16u2/ATmega_16u2_PC2.hex) is already compiled with the USB product name **Kurzweil PC2**. Rebuilding HIDUINO from source is only necessary if you want to change that USB device name again.
 
 In HIDUINO, edit:
 
