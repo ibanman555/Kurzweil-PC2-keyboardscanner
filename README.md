@@ -68,7 +68,19 @@ The current PC2 sketch is already compatible with HIDUINO as written. `keyboards
 
 The source file `keyboardscanner/midi.cpp` does contain `Serial.print()` / `Serial.println()` statements for diagnostics, but they are inside the compile-time-only `DEBUG_VELOCITY_TIMES` and `DEBUG_MIDI_MESSAGE` sections. Those debug options are **not enabled in the current PC2 build**, so the debug text is not compiled into the running firmware and is safe to leave in the source when HIDUINO is used. **Do not enable either debug option while HIDUINO is active**, because ASCII debug text would then be inserted into the same serial byte stream HIDUINO interprets as MIDI.
 
-The HIDUINO repository includes a precompiled `compiled_firmwares/arduino_midi.hex` firmware and a `compiled_firmwares/usbserial_mega_16u2.hex` image for restoring the normal Mega USB-serial interface. HIDUINO can be flashed to the USB-interface chip using its DFU bootloader or an ISP programmer; follow the HIDUINO project instructions for the exact procedure.
+#### Included ATmega16U2 firmware and recommended programmer
+
+For Mega 2560 boards that use an **ATmega16U2** as the USB interface, this repository now includes the exact USB-interface firmware used for this PC2 project:
+
+- **[ATmega_16u2_PC2.hex](firmware/atmega16u2/ATmega_16u2_PC2.hex)** — custom HIDUINO build with the USB product name changed to **Kurzweil PC2**. With the PC2 sketch running on the main ATmega2560, the board appears to the computer as a class-compliant USB-MIDI device named **Kurzweil PC2**.
+- **[usbserial_mega_16u2.hex](firmware/atmega16u2/usbserial_mega_16u2.hex)** — restore firmware for returning the Mega 2560 ATmega16U2 to its normal USB serial/COM-port behavior.
+- **[ATmega16U2 flashing guide](firmware/atmega16u2/README.md)** — programming target, connection, recovery, and ISP instructions.
+
+These two HEX files are specifically for the **ATmega16U2 USB-interface MCU**, not the main ATmega2560 that runs the PC2 sketch. Do not flash them to the main ATmega2560, and do not use these 16U2 images on an 8U2 or on Mega-compatible boards with CH340, FTDI, CP2102, or similar USB chips.
+
+For easy installation and recovery, this project recommends the **Olimex AVR-ISP-MK2**, available from Mouser as **Mouser # 909-AVR-ISP-MK2**: https://www.mouser.com/ProductDetail/Olimex-Ltd/AVR-ISP-MK2
+
+When programming these files, connect the AVR-ISP-MK2 to the **ATmega16U2's 2x3 ICSP header near the Mega's USB connector**, not the separate ICSP header for the main ATmega2560.
 
 **Important development limitation:** once HIDUINO is loaded on the 8U2/16U2, the Mega no longer provides its normal USB serial/COM interface, so the Arduino IDE cannot upload changes to the PC2 sketch through the normal USB cable. To edit and re-upload the PC2 sketch, either temporarily restore the Mega's `usbserial` firmware, upload the revised sketch, and then re-flash HIDUINO, or leave HIDUINO installed and program the main ATmega2560 through its ISP header using **Upload Using Programmer**. HIDUINO's own documentation specifically notes that sketches cannot be bootloaded over USB while HIDUINO is installed on the USB-controller AVR.
 
