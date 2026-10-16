@@ -21,10 +21,10 @@ expected = {
     "MIN_TIME_US": 1800,
     "MAX_TIME_US": 80000,
     "SETTLING_TIME_MICROSECONDS": 3,
-    "OCTAVE_DOWN_PIN": 10,
-    "OCTAVE_UP_PIN": 11,
-    "OCTAVE_DOWN_LED_PIN": 12,
-    "OCTAVE_UP_LED_PIN": 13,
+    "OCTAVE_DOWN_PIN": 11,
+    "OCTAVE_UP_PIN": 10,
+    "OCTAVE_DOWN_LED_PIN": 13,
+    "OCTAVE_UP_LED_PIN": 12,
 }
 for name, value in expected.items():
     assert define_int(name) == value, f"{name} mismatch"
