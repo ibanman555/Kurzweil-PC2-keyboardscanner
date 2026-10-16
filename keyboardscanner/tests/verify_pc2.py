@@ -81,10 +81,17 @@ assert re.search(r"^#define\s+SUSTAIN_PEDAL_PIN\s+A2\b", model, re.M)
 assert re.search(r"^#define\s+AFTERTOUCH_PIN\s+A3\b", model, re.M)
 
 pot_text = (ROOT / "potentiometers.cpp").read_text()
-assert re.search(r"^#define\s+POTS_PB_CENTER_DEADZONE\s+12\b", pot_text, re.M)
+assert re.search(r"^#define\s+POTS_PB_CENTER_DEADZONE\s+96\b", pot_text, re.M)
+assert re.search(r"^#define\s+POTS_CONNECTION_MAX_RAW\s+1000\b", pot_text, re.M)
+assert re.search(r"^#define\s+POTS_CONNECTION_SAMPLES\s+8\b", pot_text, re.M)
 assert re.search(r"^#define\s+MOD_MIN_RAW\s+2\b", pot_text, re.M)
 assert re.search(r"^#define\s+MOD_MAX_RAW\s+736\b", pot_text, re.M)
 assert "const uint16_t POTS_TYPES" in pot_text
+assert "bool potConnected[POTS_NUMBER]" in pot_text
+assert "pinMode(pin, INPUT_PULLUP);" in pot_text
+assert "return average < POTS_CONNECTION_MAX_RAW;" in pot_text
+assert "if (!potConnected[i])" in pot_text
+assert "analogRawValues[i] = analogRead(POTS_ANALOG_PINS[i]);" in pot_text
 
 scanner_text = (ROOT / "scanner.cpp").read_text()
 assert "sustain_pedal_released_state = digitalRead2(SUSTAIN_PEDAL_PIN);" in scanner_text
