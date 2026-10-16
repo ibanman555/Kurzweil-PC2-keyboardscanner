@@ -1,4 +1,7 @@
-// Linear 0-127 velocity table used by the successful PC2 prototype.
+// Current working velocity baseline for the assembled PC2: linear 0-127.
+// This table is intentionally separate from the key-matrix/contact mapping so
+// the playing feel can be retuned later without changing the verified hardware
+// scan order. Keep 128 entries in the MIDI range 0-127 and nondecreasing.
 // midi.cpp forces Note On velocity to at least 1 so MIDI velocity 0 is never
 // accidentally interpreted as Note Off.
 const byte VELOCITY_CURVE[] = {

@@ -1,6 +1,6 @@
 # Kurzweil PC2 76-key model
 
-This is the verified Kurzweil PC2 76-key matrix used by the single Arduino Mega 2560 shield.
+This is the final hardware-verified Kurzweil PC2 76-key matrix used by the assembled single Arduino Mega 2560 shield.
 
 The original PC2 keybed diodes remain in place. The scanner uses the sequential `PINS()` scan with a 3 microsecond settling delay.
 
@@ -75,3 +75,41 @@ This ordering is required for correct velocity timing. With the treble pair reve
 | 20 | MK10 | D9 |
 
 The final four notes use MK10/BR10 with T0-T3.
+
+## Verified control connector mapping
+
+### J10 - Octave buttons and LEDs
+
+| J10 pin | Physical function | Mega pin |
+|---:|---|---:|
+| 1 | SW5 / Octave Down LED | D12 through series resistor |
+| 2 | SW4 / Octave Up LED | D13 through series resistor |
+| 3 | SW4 / Octave Up button | D10 |
+| 4 | SW5 / Octave Down button | D11 |
+| 5 | Common | GND |
+
+### J11 - Wheels / pressure
+
+| J11 pin | Function | Mega pin |
+|---:|---|---:|
+| 1 | +5 V reference | +5V |
+| 2 | Pitch wheel | A0 |
+| 3 | Mod wheel | A1 |
+| 4 | PRESSR / aftertouch | A3 |
+| 5 | Analog ground | GND |
+| 6 | NC | NC |
+
+### J12 - Sustain
+
+- Tip -> A2
+- Sleeve -> GND
+
+## Current velocity baseline
+
+The assembled keyboard is currently working with:
+
+- `MIN_TIME_US = 1800`
+- `MAX_TIME_US = 80000`
+- a linear 128-entry `VELOCITY_CURVE` from 0 to 127
+
+The matrix/contact ordering above is now fixed by hardware verification. Future changes to playing feel should be made through the timing limits and/or `velocity.h`, not by changing Bass/Treble contact order.

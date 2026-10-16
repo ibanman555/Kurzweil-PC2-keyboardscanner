@@ -6,19 +6,21 @@ This repository is for a **Kurzweil PC2 76-key keybed converted into a standalon
 
 The hardware and firmware are specifically for the PC2 keybed, its original pitch/mod wheel assembly, the two illuminated switches directly above the wheels (**final verified mapping: SW4 = Octave Up, SW5 = Octave Down**), and a 1/4-inch sustain-pedal input.
 
-## Implemented functions
+## Current verified status
 
-- All 76 PC2 keys with velocity
-- Original Bass and Treble keybed ribbons
-- Pitch wheel
-- Mod wheel
-- Octave down / normal / octave up on SW4/SW5
-- Original SW4/SW5 LEDs as octave indicators
-- 1/4-inch TS sustain pedal
-- Automatic sustain-pedal polarity detection at power-up
-- PC2 PRESSR/aftertouch routed to A3 for future use
+The final single-Mega shield has been assembled in the PC2 and the current firmware is physically working with:
 
-Aftertouch MIDI output is intentionally not enabled yet because the original pressure strip is still being evaluated for consistent mechanical response.
+- all 76 keys on the Bass and Treble ribbons, including variable MIDI velocity
+- pitch wheel
+- mod wheel
+- sustain pedal with automatic polarity detection at power-up
+- octave down / normal / octave up
+- the two original button LEDs following the correct octave state
+- the disconnected-J11 startup protection for the pitch/mod analog inputs
+
+PC2 PRESSR/aftertouch is routed to A3 for future use, but aftertouch MIDI output is intentionally not enabled yet.
+
+The hardware mappings below are the **final assembled-shield mappings**, not inferred prototype mappings.
 
 ## Downloading and opening the Arduino sketch
 
@@ -47,9 +49,9 @@ keyboardscanner/keyboardscanner.ino
 
 In Arduino IDE select **Arduino Mega or Mega 2560**, install the **DIO2** library, then compile and upload.
 
-## MIDI connection used for prototype testing
+## Legacy dual-Mega prototype MIDI connection
 
-This projects prototype used 2 separate Arduino Mega 2560's to allow both PC2 keybed ribbon connectors to be attached to the digital pins without modification. The successful dual-Mega prototype used the Mega's normal USB serial connection as a COM port and Bome as the serial-to-MIDI bridge:
+This project's prototype used 2 separate Arduino Mega 2560s to allow both PC2 keybed ribbon connectors to be attached to the digital pins without modification. The successful dual-Mega prototype used the Mega's normal USB serial connection as a COM port and Bome as the serial-to-MIDI bridge:
 
 - Serial speed: **31250 baud**
 - Format: **8N1**
@@ -153,7 +155,7 @@ D0/D1 are used by `Serial`/UART0 and are shared with the Mega's USB-to-serial in
 - Bass section: notes 28-59
 - Treble section: notes 60-103
 - Velocity timing range: 1800-80000 us
-- Velocity curve: linear 0-127 (prototype-verified baseline)
+- Velocity curve: linear 0-127 (**current working baseline; intentionally easy to retune later**)
 - Matrix settling delay: 3 us
 
 The final assembled keybed uses different contact order on its two ribbon sections:
@@ -161,7 +163,23 @@ The final assembled keybed uses different contact order on its two ribbon sectio
 - **Bass:** BR closes first, MK closes second, so `pins.h` stores **MK then BR**.
 - **Treble:** MK closes first, BR closes second, so `pins.h` stores **BR then MK**.
 
-`states.cpp` requires **SECOND contact first, FIRST contact second** in `pins.h`. This exact ordering is required for velocity timing; reversing the treble pair makes its timing interval collapse and causes full-velocity notes.
+`states.cpp` requires **SECOND contact first, FIRST contact second** in `pins.h`. This exact ordering is required for velocity timing; reversing the treble pair makes its timing interval collapse and causes full-velocity notes. The assembled keyboard has now verified the order above.
+
+## Velocity calibration and future curve tuning
+
+The currently working velocity baseline is:
+
+- `MIN_TIME_US = 1800`
+- `MAX_TIME_US = 80000`
+- `velocity.h` = a 128-entry linear table from 0 to 127
+
+The contact ordering in `pins.h` is now hardware-verified and **should not be changed when adjusting playing feel**. Future velocity tuning should be done by changing the timing limits in `model.h`, the response table in `velocity.h`, or both.
+
+`midi.cpp` first converts the measured contact time into a 0-127 linear velocity index, then passes that index through `VELOCITY_CURVE`. This makes `velocity.h` the intended place to create a softer, harder, or otherwise shaped response without changing the key matrix.
+
+The automated test permits a non-linear velocity table as long as it has 128 values, stays within MIDI 0-127, begins at 0, ends at 127, and never decreases.
+
+For timing diagnostics, `DEBUG_VELOCITY_TIMES` can be enabled temporarily, but **not while HIDUINO is active**, because debug text would be inserted into the MIDI serial stream. Restore the normal USB-serial firmware or use another debug path before enabling serial velocity diagnostics.
 
 ## Controls
 
@@ -235,7 +253,7 @@ The custom Mega 2560 shield can be fabricated from the project's KiCad-exported 
 - **[View the PC2 Shield BOM on GitHub](hardware/PC2_Shield_BOM.md)**
 - **[Open the full PC2 Shield BOM CSV](hardware/PC2_Shield_BOM.csv)**
 
-See the hardware guide for the manufacturing file list, ordering guidance, connector pinouts, BOM, and assembly precautions. The final shield has been physically assembled and function-tested; the octave-button and LED assignments below reflect the verified hardware.
+See the hardware guide for the manufacturing file list, ordering guidance, connector pinouts, BOM, and assembly precautions. The final shield has been physically assembled and function-tested; the connector mappings in this repository reflect the working hardware.
 
 See:
 
