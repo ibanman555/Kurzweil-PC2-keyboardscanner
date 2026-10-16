@@ -29,7 +29,7 @@ The Markdown and CSV BOMs are for **one PC2 Shield**. The shield is designed for
 
 **Manufacturing instructions:** Upload the ZIP of Gerber and drill files to a PCB fabrication service. Review its Gerber preview for the board outline, holes, copper, silkscreen, and orientation before ordering. The package is for a **bare PCB**, not an assembled board: connectors, resistors, the sustain jack, and the Arduino Mega must be supplied and assembled separately.
 
-**Status:** The single-Mega shield has now been physically assembled and function-tested. The final verified octave-control mapping is SW4 = Octave Up / SW5 = Octave Down, with their matching LEDs. Confirm the actual sustain jack's tip/sleeve contacts and connector pin-1 orientations before applying power.
+**Status:** The single-Mega shield has now been physically assembled and function-tested. The final verified button mapping is SW4 = Octave Up / SW5 = Octave Down. The LED traces are crossed relative to the button signal order: D13 lights SW4/Octave Up and D12 lights SW5/Octave Down. Confirm the actual sustain jack's tip/sleeve contacts and connector pin-1 orientations before applying power.
 
 The final shield combines the complete Kurzweil PC2 keybed and controls onto one Arduino Mega 2560.
 
@@ -45,13 +45,15 @@ Pins 1-12 connect to D38-D49. Pins 13-20 connect to D2-D9.
 
 J10 connects the two original illuminated buttons located **just above the PC2 pitch and mod wheels**. In this project they are used exclusively for octave shifting:
 
+Final assembled-shield testing confirmed that the **button inputs are D10/D11, while the LED outputs are crossed on D13/D12**. The table below reflects the actual working hardware.
+
 - **SW4 = Octave Up**
 - **SW5 = Octave Down**
 
 | J10 pin | PC2 control | Function | Mega pin |
 |---:|---|---|---:|
-| 1 | SW4 LED | Octave-up LED | D12 through series resistor |
-| 2 | SW5 LED | Octave-down LED | D13 through series resistor |
+| 1 | SW4 LED | Octave-up LED | D13 through series resistor |
+| 2 | SW5 LED | Octave-down LED | D12 through series resistor |
 | 3 | SW4 | Octave-up button | D10 |
 | 4 | SW5 | Octave-down button | D11 |
 | 5 | Common | Button/LED common | GND |
