@@ -101,8 +101,14 @@ The final four notes use MK10/BR10 with T0-T3.
 
 ### J12 - Sustain
 
-- Tip -> A2
-- Sleeve -> GND
+The current PCB manufacturing package uses a corrected Neutrik NMJ4HCD2 footprint:
+
+- physical T / tip -> A2
+- physical S / sleeve -> GND
+- TN -> NC
+- SN -> NC
+
+The four holes retain the NMJ4HCD2's official 12.70 mm x 16.23 mm geometry with 1.40 mm drills. The whole footprint is rotated 180 degrees for mechanical clearance from J10; the pad identities are rotated with the part.
 
 ## Current velocity baseline
 
