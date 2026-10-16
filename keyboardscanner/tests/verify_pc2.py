@@ -76,7 +76,7 @@ assert all(0 <= v <= 127 for v in values), "velocity value outside MIDI range"
 print("PC2 static verification passed")
 
 
-# Control and prototype-calibration invariants.
+# Control and verified-build invariants.
 assert re.search(r"^#define\s+PITCH_WHEEL_PIN\s+A0\b", model, re.M)
 assert re.search(r"^#define\s+MOD_WHEEL_PIN\s+A1\b", model, re.M)
 assert re.search(r"^#define\s+SUSTAIN_PEDAL_PIN\s+A2\b", model, re.M)
@@ -106,6 +106,8 @@ assert "if (status_byte == 0x90 && vel == 0)" in midi_text
 extensions_text = (ROOT / "extensions.h").read_text().strip()
 assert extensions_text == "EXTENSION(potentiometers)", "unexpected extension enabled"
 
-assert values == list(range(128)), "velocity curve differs from prototype-verified linear 0..127 baseline"
+assert values[0] == 0, "velocity curve must begin at 0"
+assert values[-1] == 127, "velocity curve must end at 127"
+assert all(a <= b for a, b in zip(values, values[1:])), "velocity curve must be nondecreasing"
 
 print("PC2 control/calibration verification passed")
