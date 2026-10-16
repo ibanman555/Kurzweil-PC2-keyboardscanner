@@ -29,7 +29,7 @@ The Markdown and CSV BOMs are for **one PC2 Shield**. The shield is designed for
 
 **Manufacturing instructions:** Upload the ZIP of Gerber and drill files to a PCB fabrication service. Review its Gerber preview for the board outline, holes, copper, silkscreen, and orientation before ordering. The package is for a **bare PCB**, not an assembled board: connectors, resistors, the sustain jack, and the Arduino Mega must be supplied and assembled separately.
 
-**Status:** The single-Mega shield has now been physically assembled and function-tested. The final verified button mapping is SW4 = Octave Up / SW5 = Octave Down. The LED traces are crossed relative to the button signal order: D13 lights SW4/Octave Up and D12 lights SW5/Octave Down. Confirm the actual sustain jack's tip/sleeve contacts and connector pin-1 orientations before applying power.
+**Status:** The single-Mega shield has been physically assembled in the PC2 and is working with all 76 keys and velocity, pitch, mod, sustain, octave buttons, and octave LEDs. The existing PCB does not require a respin for the verified functions. J10's LED conductors are intentionally non-intuitive: connector pin 1 is the SW5/Octave Down LED on D12, while connector pin 2 is the SW4/Octave Up LED on D13.
 
 The final shield combines the complete Kurzweil PC2 keybed and controls onto one Arduino Mega 2560.
 
@@ -41,24 +41,26 @@ Pins 1-16 connect sequentially to Mega D22-D37.
 
 Pins 1-12 connect to D38-D49. Pins 13-20 connect to D2-D9.
 
+The physical treble contact order is **MK first, BR second**. The firmware intentionally stores each treble pair as **BR then MK** because `states.cpp` expects the second-closing contact first. This ordering has been verified on the assembled keyboard and is required for variable treble velocity.
+
 ## J10 - SW4 / SW5 octave buttons and LEDs
 
 J10 connects the two original illuminated buttons located **just above the PC2 pitch and mod wheels**. In this project they are used exclusively for octave shifting:
 
-Final assembled-shield testing confirmed that the **button inputs are D10/D11, while the LED outputs are crossed on D13/D12**. The table below reflects the actual working hardware.
+Final assembled-shield testing confirmed that the **button inputs are D10/D11, while the LED conductors on J10 pins 1 and 2 are opposite the earlier labels**. The table below reflects the actual connector pin identity and the working Mega pin assignment.
 
 - **SW4 = Octave Up**
 - **SW5 = Octave Down**
 
 | J10 pin | PC2 control | Function | Mega pin |
 |---:|---|---|---:|
-| 1 | SW4 LED | Octave-up LED | D13 through series resistor |
-| 2 | SW5 LED | Octave-down LED | D12 through series resistor |
+| 1 | SW5 LED | Octave-down LED | D12 through series resistor |
+| 2 | SW4 LED | Octave-up LED | D13 through series resistor |
 | 3 | SW4 | Octave-up button | D10 |
 | 4 | SW5 | Octave-down button | D11 |
 | 5 | Common | Button/LED common | GND |
 
-Use one current-limiting resistor per LED. 330 ohm or 470 ohm is recommended; 1 kohm works but is visibly dimmer. At normal octave both LEDs are off; selecting octave up lights SW4, and selecting octave down lights SW5.
+Use one current-limiting resistor per LED. 330 ohm or 470 ohm is recommended; 1 kohm works but is visibly dimmer. At normal octave both LEDs are off; selecting octave up lights the physical SW4 LED through D13, and selecting octave down lights the physical SW5 LED through D12.
 
 ## J11 - Wheels / pressure
 
