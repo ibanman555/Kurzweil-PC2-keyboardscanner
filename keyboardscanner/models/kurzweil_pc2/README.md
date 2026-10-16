@@ -101,7 +101,7 @@ The final four notes use MK10/BR10 with T0-T3.
 
 ### J12 - Sustain
 
-The current PCB manufacturing package uses a corrected Neutrik NMJ4HCD2 footprint:
+The PCB manufacturing package uses a Neutrik NMJ4HCD2 footprint:
 
 - physical T / tip -> A2
 - physical S / sleeve -> GND
