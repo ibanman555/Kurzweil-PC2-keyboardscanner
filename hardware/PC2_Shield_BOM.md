@@ -1,6 +1,6 @@
 # PC2 Shield Bill of Materials
 
-> **J12 sustain jack:** Mouser **550-12202 / Neutrik NMJ4HCD2 remains the correct part.** Use the current `PC2 Board.zip`, which contains the corrected J12 footprint orientation. Earlier fabrication files placed the physical jack contacts incorrectly for the required mounting direction.
+> **J12 sustain jack:** Mouser **550-12202 / Neutrik NMJ4HCD2**. Use the included `PC2 Board.zip` manufacturing package.
 
 GitHub-viewable BOM for **one PC2 Shield**, generated from the Mouser spreadsheet.
 

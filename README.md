@@ -16,13 +16,11 @@ The assembled single-Mega PC2 has physically verified:
 - octave down / normal / octave up
 - the two original button LEDs following the correct octave state
 - the disconnected-J11 startup protection for the pitch/mod analog inputs
-- the sustain firmware/input path: directly shorting A2 to GND correctly produces sustain
+- the sustain firmware/input path
 
-The first fabricated shield exposed a **J12 sustain-jack footprint orientation error**: the Neutrik NMJ4HCD2 could only be installed in the mechanically usable direction with its physical contacts landing on the wrong footprint pads. The manufacturing package in this repository has now been replaced with a corrected J12 footprint. The revised Gerbers route the actual **T contact to A2** and **S contact to GND**, with TN/SN unused, while keeping the jack facing away from J10.
+The current PCB manufacturing files use the Neutrik NMJ4HCD2 footprint with **T -> A2**, **S -> GND**, and **TN/SN unused**, with the jack oriented for clearance from J10.
 
 PC2 PRESSR/aftertouch is routed to A3 for future use, but aftertouch MIDI output is intentionally not enabled yet.
-
-The keybed/control mappings below are hardware-verified. The **revised J12 manufacturing footprint is design-verified against the official NMJ4HCD2 geometry but has not yet been verified on a newly fabricated PCB**.
 
 ## Downloading and opening the Arduino sketch
 
@@ -211,7 +209,7 @@ Connect J11 before powering or resetting the Mega. If J11 is plugged in after st
 
 ### Sustain
 
-J12 uses a Neutrik **NMJ4HCD2** switched mono jack. In the corrected manufacturing package:
+J12 uses a Neutrik **NMJ4HCD2** switched mono jack. In the current manufacturing package:
 
 - physical **T (tip)** contact -> A2
 - physical **S (sleeve)** contact -> GND
@@ -258,7 +256,7 @@ The custom Mega 2560 shield can be fabricated from the project's KiCad-exported 
 - **[View the PC2 Shield BOM on GitHub](hardware/PC2_Shield_BOM.md)**
 - **[Open the full PC2 Shield BOM CSV](hardware/PC2_Shield_BOM.csv)**
 
-See the hardware guide for the manufacturing file list, ordering guidance, connector pinouts, BOM, and assembly precautions. The current manufacturing ZIP supersedes the earlier J12 footprint revision and contains the corrected NMJ4HCD2 orientation.
+See the hardware guide for the manufacturing file list, ordering guidance, connector pinouts, BOM, and assembly precautions. The included manufacturing ZIP contains the current NMJ4HCD2 J12 footprint.
 
 See:
 
