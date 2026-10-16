@@ -127,8 +127,8 @@ Device-name source file: [src/arduino_midi/Descriptors.c](https://github.com/ddi
 | J9 Treble pins 13-20 | D2-D9 |
 | SW4 / Octave Up button | D10 |
 | SW5 / Octave Down button | D11 |
-| SW4 / Octave Up LED | D12 |
-| SW5 / Octave Down LED | D13 |
+| SW4 / Octave Up LED | D13 |
+| SW5 / Octave Down LED | D12 |
 | Pitch | A0 |
 | Mod | A1 |
 | Sustain | A2 |
@@ -197,10 +197,12 @@ The firmware learns pedal polarity at startup. **Plug the pedal in and leave it 
 
 The two original illuminated buttons located **just above the pitch and mod wheels** are used for octave shift:
 
+The **button inputs and LED outputs do not follow the same D10-D13 order on the assembled shield**. The verified assignments below are intentional:
+
 - **SW4 = Octave Up** -> D10
 - **SW5 = Octave Down** -> D11
-- **SW4 LED = Octave Up indicator** -> D12 through a series resistor
-- **SW5 LED = Octave Down indicator** -> D13 through a series resistor
+- **SW4 LED = Octave Up indicator** -> D13 through a series resistor
+- **SW5 LED = Octave Down indicator** -> D12 through a series resistor
 
 At normal octave both LEDs are off. Selecting octave up lights SW4; selecting octave down lights SW5. The code remembers the octave used for each Note On so the matching Note Off is sent to the same transposed note even if the octave is changed while a key is held.
 
@@ -228,7 +230,7 @@ The custom Mega 2560 shield can be fabricated from the project's KiCad-exported 
 - **[View the PC2 Shield BOM on GitHub](hardware/PC2_Shield_BOM.md)**
 - **[Open the full PC2 Shield BOM CSV](hardware/PC2_Shield_BOM.csv)**
 
-See the hardware guide for the manufacturing file list, ordering guidance, connector pinouts, BOM, and assembly precautions. The final shield is not yet physically verified.
+See the hardware guide for the manufacturing file list, ordering guidance, connector pinouts, BOM, and assembly precautions. The final shield has been physically assembled and function-tested; the octave-button and LED assignments below reflect the verified hardware.
 
 See:
 
