@@ -29,7 +29,7 @@ The Markdown and CSV BOMs are for **one PC2 Shield**. The shield is designed for
 
 **Manufacturing instructions:** Upload the ZIP of Gerber and drill files to a PCB fabrication service. Review its Gerber preview for the board outline, holes, copper, silkscreen, and orientation before ordering. The package is for a **bare PCB**, not an assembled board: connectors, resistors, the sustain jack, and the Arduino Mega must be supplied and assembled separately.
 
-**Status:** The merged single-Mega firmware compiles and is based on the successful two-Mega prototype, but the final fabricated shield still requires physical assembly and hardware verification. Confirm the actual jack's tip/sleeve contacts and connector pin-1 orientations before applying power.
+**Status:** The single-Mega shield has now been physically assembled and function-tested. The final verified octave-control mapping is SW4 = Octave Up / SW5 = Octave Down, with their matching LEDs. Confirm the actual sustain jack's tip/sleeve contacts and connector pin-1 orientations before applying power.
 
 The final shield combines the complete Kurzweil PC2 keybed and controls onto one Arduino Mega 2560.
 
@@ -45,18 +45,18 @@ Pins 1-12 connect to D38-D49. Pins 13-20 connect to D2-D9.
 
 J10 connects the two original illuminated buttons located **just above the PC2 pitch and mod wheels**. In this project they are used exclusively for octave shifting:
 
-- **SW4 = Octave Down**
-- **SW5 = Octave Up**
+- **SW4 = Octave Up**
+- **SW5 = Octave Down**
 
 | J10 pin | PC2 control | Function | Mega pin |
 |---:|---|---|---:|
-| 1 | SW4 LED | Octave-down LED | D12 through series resistor |
-| 2 | SW5 LED | Octave-up LED | D13 through series resistor |
-| 3 | SW4 | Octave-down button | D10 |
-| 4 | SW5 | Octave-up button | D11 |
+| 1 | SW4 LED | Octave-up LED | D12 through series resistor |
+| 2 | SW5 LED | Octave-down LED | D13 through series resistor |
+| 3 | SW4 | Octave-up button | D10 |
+| 4 | SW5 | Octave-down button | D11 |
 | 5 | Common | Button/LED common | GND |
 
-Use one current-limiting resistor per LED. 330 ohm or 470 ohm is recommended; 1 kohm works but is visibly dimmer. At normal octave both LEDs are off; selecting octave down lights SW4, and selecting octave up lights SW5.
+Use one current-limiting resistor per LED. 330 ohm or 470 ohm is recommended; 1 kohm works but is visibly dimmer. At normal octave both LEDs are off; selecting octave up lights SW4, and selecting octave down lights SW5.
 
 ## J11 - Wheels / pressure
 
