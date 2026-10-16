@@ -8,19 +8,21 @@ The hardware and firmware are specifically for the PC2 keybed, its original pitc
 
 ## Current verified status
 
-The final single-Mega shield has been assembled in the PC2 and the current firmware is physically working with:
+The assembled single-Mega PC2 has physically verified:
 
 - all 76 keys on the Bass and Treble ribbons, including variable MIDI velocity
 - pitch wheel
 - mod wheel
-- sustain pedal with automatic polarity detection at power-up
 - octave down / normal / octave up
 - the two original button LEDs following the correct octave state
 - the disconnected-J11 startup protection for the pitch/mod analog inputs
+- the sustain firmware/input path: directly shorting A2 to GND correctly produces sustain
+
+The first fabricated shield exposed a **J12 sustain-jack footprint orientation error**: the Neutrik NMJ4HCD2 could only be installed in the mechanically usable direction with its physical contacts landing on the wrong footprint pads. The manufacturing package in this repository has now been replaced with a corrected J12 footprint. The revised Gerbers route the actual **T contact to A2** and **S contact to GND**, with TN/SN unused, while keeping the jack facing away from J10.
 
 PC2 PRESSR/aftertouch is routed to A3 for future use, but aftertouch MIDI output is intentionally not enabled yet.
 
-The hardware mappings below are the **final assembled-shield mappings**, not inferred prototype mappings.
+The keybed/control mappings below are hardware-verified. The **revised J12 manufacturing footprint is design-verified against the official NMJ4HCD2 geometry but has not yet been verified on a newly fabricated PCB**.
 
 ## Downloading and opening the Arduino sketch
 
@@ -209,10 +211,13 @@ Connect J11 before powering or resetting the Mega. If J11 is plugged in after st
 
 ### Sustain
 
-1/4-inch TS jack:
+J12 uses a Neutrik **NMJ4HCD2** switched mono jack. In the corrected manufacturing package:
 
-- TIP -> A2
-- SLEEVE -> GND
+- physical **T (tip)** contact -> A2
+- physical **S (sleeve)** contact -> GND
+- **TN** and **SN** switching contacts -> not connected
+
+The J12 footprint is the official NMJ4HCD2 12.70 mm x 16.23 mm four-pin geometry with 1.40 mm drills, rotated 180 degrees as a complete footprint so the jack remains mechanically clear of J10 while its physical contact identities stay correct.
 
 The firmware learns pedal polarity at startup. **Plug the pedal in and leave it released while powering on or resetting the Mega.**
 
@@ -253,7 +258,7 @@ The custom Mega 2560 shield can be fabricated from the project's KiCad-exported 
 - **[View the PC2 Shield BOM on GitHub](hardware/PC2_Shield_BOM.md)**
 - **[Open the full PC2 Shield BOM CSV](hardware/PC2_Shield_BOM.csv)**
 
-See the hardware guide for the manufacturing file list, ordering guidance, connector pinouts, BOM, and assembly precautions. The final shield has been physically assembled and function-tested; the connector mappings in this repository reflect the working hardware.
+See the hardware guide for the manufacturing file list, ordering guidance, connector pinouts, BOM, and assembly precautions. The current manufacturing ZIP supersedes the earlier J12 footprint revision and contains the corrected NMJ4HCD2 orientation.
 
 See:
 
