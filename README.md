@@ -156,7 +156,12 @@ D0/D1 are used by `Serial`/UART0 and are shared with the Mega's USB-to-serial in
 - Velocity curve: linear 0-127 (prototype-verified baseline)
 - Matrix settling delay: 3 us
 
-Both Bass and Treble halves use the same physical contact order: **BR closes first, MK closes second**. Because `states.cpp` expects **SECOND contact first, FIRST contact second**, `pins.h` stores **MK first, BR second** for every key. This matches the verified dual-Mega prototype diagnostics.
+The final assembled keybed uses different contact order on its two ribbon sections:
+
+- **Bass:** BR closes first, MK closes second, so `pins.h` stores **MK then BR**.
+- **Treble:** MK closes first, BR closes second, so `pins.h` stores **BR then MK**.
+
+`states.cpp` requires **SECOND contact first, FIRST contact second** in `pins.h`. This exact ordering is required for velocity timing; reversing the treble pair makes its timing interval collapse and causes full-velocity notes.
 
 ## Controls
 
