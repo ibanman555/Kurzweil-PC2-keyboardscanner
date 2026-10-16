@@ -71,6 +71,8 @@ Use one current-limiting resistor per LED. 330 ohm or 470 ohm is recommended; 1 
 
 Pitch and mod are enabled. A3 is routed for PC2 channel aftertouch/pressure, but aftertouch MIDI output is intentionally not enabled yet because the original pressure strip is still being mechanically evaluated.
 
+**J11 startup behavior:** A0 and A1 are analog inputs and would normally float when J11 is unplugged. The firmware performs a startup connection check using the Mega's internal pull-ups and disables any pitch/mod channel that still looks open, preventing false Pitch Bend or CC1 messages from an unconnected shield. Connect J11 before powering or resetting the Mega. If J11 is connected after startup, reset the Mega so the control inputs are detected again. Leave the pitch wheel released/centered during startup.
+
 ## J12 - Sustain pedal
 
 1/4-inch TS jack:

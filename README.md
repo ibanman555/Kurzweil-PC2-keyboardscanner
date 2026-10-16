@@ -164,13 +164,25 @@ Both Bass and Treble halves use the same physical contact order: **BR closes fir
 
 PC2 6-pin wheel connector pin 2 -> A0.
 
-The pitch input is mapped as 14-bit MIDI Pitch Bend with a center dead zone around the wheel's mechanical center.
+The pitch input is mapped as 14-bit MIDI Pitch Bend. The current production calibration uses a **96-count ADC center dead zone** around raw center 512. This value was verified on the prototype with the original PC2 pitch potentiometer, which has some mechanical return variation. Any reading inside the dead zone is forced to exact MIDI pitch-bend center **8192**.
 
 ### Mod
 
 PC2 6-pin wheel connector pin 3 -> A1.
 
 The measured PC2 mod-wheel output is approximately 0.008-3.6 V. The successful prototype used ADC raw **2-736**, which the firmware maps to the full MIDI CC1 range 0-127.
+
+### Safe startup with J11 disconnected
+
+A0 and A1 are analog inputs. On an Arduino Mega 2560, an unconnected analog input floats and can otherwise look like constant pitch-wheel or mod-wheel movement.
+
+The production firmware now performs a startup connection check on the pitch and mod inputs. It briefly enables the AVR's internal pull-up resistor on each analog input before MIDI output begins:
+
+- a real PC2 control holds the input below full-scale and is enabled;
+- an open/floating input is pulled close to ADC 1023 and is left disabled;
+- disconnected J11 therefore does **not** generate a stream of false Pitch Bend or CC1 messages.
+
+Connect J11 before powering or resetting the Mega. If J11 is plugged in after startup, reset the Mega so the connection check runs again. For the most reliable pitch detection, leave the pitch wheel released/centered during power-up.
 
 ### Sustain
 
