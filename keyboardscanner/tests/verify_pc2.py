@@ -52,9 +52,11 @@ for group in range(4):
         expected_pairs += [(f"BASS_MK{group}", f"BASS_T{t}"), (f"BASS_BR{group}", f"BASS_T{t}")]
 for group in range(5, 10):
     for t in range(8):
-        expected_pairs += [(f"TREBLE_MK{group}", f"TREBLE_T{t}"), (f"TREBLE_BR{group}", f"TREBLE_T{t}")]
+        # Treble hardware closes MK first and BR second, so states.cpp needs
+        # SECOND (BR) stored first and FIRST (MK) stored second.
+        expected_pairs += [(f"TREBLE_BR{group}", f"TREBLE_T{t}"), (f"TREBLE_MK{group}", f"TREBLE_T{t}")]
 for t in range(4):
-    expected_pairs += [("TREBLE_MK10", f"TREBLE_T{t}"), ("TREBLE_BR10", f"TREBLE_T{t}")]
+    expected_pairs += [("TREBLE_BR10", f"TREBLE_T{t}"), ("TREBLE_MK10", f"TREBLE_T{t}")]
 
 assert pairs == expected_pairs, "pins.h key/contact order differs from verified PC2 mapping"
 
