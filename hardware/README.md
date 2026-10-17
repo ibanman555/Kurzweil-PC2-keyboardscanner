@@ -6,6 +6,12 @@ This hardware is a custom Arduino Mega 2560 shield designed for the Kurzweil PC2
 
 **[Download the PC2 Shield PCB manufacturing Gerber package](PC2%20Board.zip)**
 
+### PCB layout
+
+<img src="PC2_Shield_PCB.png" alt="Kurzweil PC2 Arduino Mega 2560 adapter shield PCB layout" width="1000">
+
+*PC2 adapter shield PCB layout and component placement.*
+
 ## Bill of materials
 
 - **[View the GitHub-formatted PC2 Shield BOM](PC2_Shield_BOM.md)** — concise, human-readable parts table with datasheet links.
@@ -32,6 +38,12 @@ The Markdown and CSV BOMs are for **one PC2 Shield**. The shield is designed for
 **Status:** The current shield design uses the verified keybed, velocity, pitch, mod, octave-button and octave-LED mappings. SW4 is Octave Down and SW5 is Octave Up. J12 uses the Neutrik NMJ4HCD2 footprint with T -> A2 and S -> GND.
 
 The final shield combines the complete Kurzweil PC2 keybed and controls onto one Arduino Mega 2560.
+
+## Shield schematic
+
+<img src="PC2_Shield_Schematic.png" alt="Kurzweil PC2 Arduino Mega 2560 adapter shield schematic" width="850">
+
+*Complete shield schematic showing the Mega 2560 headers, J8/J9 keybed ribbons, J10 buttons and LEDs, J11 wheel connector, and J12 sustain input.*
 
 ## J8 - Bass keybed ribbon
 
