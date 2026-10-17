@@ -82,10 +82,10 @@ The final four notes use MK10/BR10 with T0-T3.
 
 | J10 pin | Physical function | Mega pin |
 |---:|---|---:|
-| 1 | SW5 / Octave Down LED | D12 through series resistor |
-| 2 | SW4 / Octave Up LED | D13 through series resistor |
-| 3 | SW4 / Octave Up button | D10 |
-| 4 | SW5 / Octave Down button | D11 |
+| 1 | SW4 / Octave Down LED | D12 through series resistor |
+| 2 | SW5 / Octave Up LED | D13 through series resistor |
+| 3 | SW5 / Octave Up button | D10 |
+| 4 | SW4 / Octave Down button | D11 |
 | 5 | Common | GND |
 
 ### J11 - Wheels / pressure
