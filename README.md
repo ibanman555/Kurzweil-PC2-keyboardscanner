@@ -165,6 +165,10 @@ The final assembled keybed uses different contact order on its two ribbon sectio
 
 ## Velocity calibration and future curve tuning
 
+**[Detailed PC2 velocity / playing-feel tuning instructions](keyboardscanner/models/kurzweil_pc2/VELOCITY_TUNING.md)**
+
+Use that guide before changing any velocity settings. It explains exactly how `MIN_TIME_US`, `MAX_TIME_US`, and `VELOCITY_CURVE[]` interact, how to measure real key-contact timing, how to make the keyboard feel lighter or heavier, and how to return to the known-working baseline.
+
 The currently working velocity baseline is:
 
 - `MIN_TIME_US = 1800`
