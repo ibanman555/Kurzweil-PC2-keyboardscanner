@@ -112,6 +112,8 @@ The four holes retain the NMJ4HCD2's official 12.70 mm x 16.23 mm geometry with 
 
 ## Current velocity baseline
 
+For detailed instructions, see **[PC2 velocity / playing-feel tuning](VELOCITY_TUNING.md)**.
+
 The assembled keyboard is currently working with:
 
 - `MIN_TIME_US = 1800`
