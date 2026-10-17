@@ -23,13 +23,14 @@ Kurzweil PC2 76-key configuration for the single Arduino Mega 2560 shield.
 
 // Original illuminated buttons just above the pitch/mod wheels.
 // Final assembled-shield verification:
-// D10/SW4 button = Octave Up, D11/SW5 button = Octave Down.
-// The LED traces are crossed relative to the button signal order:
-// D13 drives the SW4/Octave Up LED, D12 drives the SW5/Octave Down LED.
-#define OCTAVE_DOWN_PIN       11  // SW5 button
-#define OCTAVE_UP_PIN         10  // SW4 button
-#define OCTAVE_DOWN_LED_PIN   12  // physical SW5 / Octave Down LED
-#define OCTAVE_UP_LED_PIN     13  // physical SW4 / Octave Up LED
+// SW4 = Octave Down on D11.
+// SW5 = Octave Up on D10.
+// SW4 / Octave Down LED = D12.
+// SW5 / Octave Up LED = D13.
+#define OCTAVE_DOWN_PIN       11  // SW4 button
+#define OCTAVE_UP_PIN         10  // SW5 button
+#define OCTAVE_DOWN_LED_PIN   12  // SW4 / Octave Down LED
+#define OCTAVE_UP_LED_PIN     13  // SW5 / Octave Up LED
 
 // J8 - Bass ribbon
 #define BASS_MK0 22
