@@ -4,7 +4,7 @@
 
 This repository is for a **Kurzweil PC2 76-key keybed converted into a standalone MIDI controller using one Arduino Mega 2560 and a custom shield**.
 
-The hardware and firmware are specifically for the PC2 keybed, its original pitch/mod wheel assembly, the two illuminated switches directly above the wheels (**final verified mapping: SW4 = Octave Up, SW5 = Octave Down**), and a 1/4-inch sustain-pedal input.
+The hardware and firmware are specifically for the PC2 keybed, its original pitch/mod wheel assembly, the two illuminated switches directly above the wheels (**final verified mapping: SW4 = Octave Down, SW5 = Octave Up**), and a 1/4-inch sustain-pedal input.
 
 ## Current verified status
 
@@ -127,10 +127,10 @@ Device-name source file: [src/arduino_midi/Descriptors.c](https://github.com/ddi
 | J8 Bass ribbon | D22-D37 |
 | J9 Treble pins 1-12 | D38-D49 |
 | J9 Treble pins 13-20 | D2-D9 |
-| SW4 / Octave Up button | D10 |
-| SW5 / Octave Down button | D11 |
-| SW4 / Octave Up LED | D13 |
-| SW5 / Octave Down LED | D12 |
+| SW4 / Octave Down button | D11 |
+| SW5 / Octave Up button | D10 |
+| SW4 / Octave Down LED | D12 |
+| SW5 / Octave Up LED | D13 |
 | Pitch | A0 |
 | Mod | A1 |
 | Sustain | A2 |
@@ -221,16 +221,14 @@ The firmware learns pedal polarity at startup. **Plug the pedal in and leave it 
 
 ### SW4 / SW5 octave buttons and LEDs
 
-The two original illuminated buttons located **just above the pitch and mod wheels** are used for octave shift:
+The two original illuminated buttons located **just above the pitch and mod wheels** are used for octave shift. The verified physical mapping is:
 
-The **button inputs and LED outputs do not follow the same D10-D13 order on the assembled shield**. The verified assignments below are intentional:
+- **SW4 = Octave Down** -> D11
+- **SW5 = Octave Up** -> D10
+- **SW4 LED = Octave Down indicator** -> D12 through a series resistor
+- **SW5 LED = Octave Up indicator** -> D13 through a series resistor
 
-- **SW4 = Octave Up** -> D10
-- **SW5 = Octave Down** -> D11
-- **SW4 LED = Octave Up indicator** -> D13 through a series resistor
-- **SW5 LED = Octave Down indicator** -> D12 through a series resistor
-
-At normal octave both LEDs are off. Selecting octave up lights SW4; selecting octave down lights SW5. The code remembers the octave used for each Note On so the matching Note Off is sent to the same transposed note even if the octave is changed while a key is held.
+At normal octave both LEDs are off. Selecting octave down lights SW4; selecting octave up lights SW5. The code remembers the octave used for each Note On so the matching Note Off is sent to the same transposed note even if the octave is changed while a key is held.
 
 330 ohm or 470 ohm is recommended for each LED series resistor. 1 kohm works but is visibly dimmer.
 
