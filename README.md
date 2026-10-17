@@ -4,7 +4,7 @@
 
 This repository is for a **Kurzweil PC2 76-key keybed converted into a standalone MIDI controller using one Arduino Mega 2560 and a custom shield**.
 
-The hardware and firmware are specifically for the PC2 keybed, its original pitch/mod wheel assembly, the two illuminated switches directly above the wheels (**final verified mapping: SW4 = Octave Down, SW5 = Octave Up**), and a 1/4-inch sustain-pedal input.
+The hardware and firmware are specifically for the PC2 keybed, its original pitch/mod wheel assembly, the two illuminated switches directly above the wheels (SW4 = Octave Down, SW5 = Octave Up), and a 1/4-inch sustain-pedal input.
 
 ## Current verified status
 
@@ -17,8 +17,6 @@ The assembled single-Mega PC2 has physically verified:
 - the two original button LEDs following the correct octave state
 - the disconnected-J11 startup protection for the pitch/mod analog inputs
 - the sustain firmware/input path
-
-The current PCB manufacturing files use the Neutrik NMJ4HCD2 footprint with **T -> A2**, **S -> GND**, and **TN/SN unused**, with the jack oriented for clearance from J10.
 
 PC2 PRESSR/aftertouch is routed to A3 for future use, but aftertouch MIDI output is intentionally not enabled yet.
 
